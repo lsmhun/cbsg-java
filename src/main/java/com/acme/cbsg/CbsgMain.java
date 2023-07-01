@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import static com.acme.cbsg.Constant.*;
+
 public class CbsgMain {
+
+    private static CbsgResourceUtil dict = new CbsgResourceUtil();
 
     public static void main(String... args) {
         // Corporate Bullshit Generator
@@ -101,110 +105,6 @@ public class CbsgMain {
         }
         return s;
     }
-//
-//    public static String weightedChoice(Map<String, Double> choices) {
-//        double total = 0;
-//        for (double value : choices.values()) {
-//            total += value;
-//        }
-//
-//        double r = Math.random() * total;
-//        double upto = 0;
-//        for (Map.Entry<String, Double> entry : choices.entrySet()) {
-//            String c = entry.getKey();
-//            double w = entry.getValue();
-//            if (upto + w > r) {
-//                return c;
-//            }
-//            upto += w;
-//        }
-//
-//        return null;
-//    }
-
-//    public static String boss() {
-//        String[] departments = {"Human Resources", "Controlling"};
-//        String department = departments[new Random().nextInt(departments.length)];
-//
-//        Map<String, Integer> departmentOrTopRole = new HashMap<>();
-//        departmentOrTopRole.put(department, 42);
-//        departmentOrTopRole.put("Visionary", 1);
-//        departmentOrTopRole.put("Digital", 1);
-//        departmentOrTopRole.put("Technical", 1);
-//        departmentOrTopRole.put("Manifesto", 1);
-//        departmentOrTopRole.put("Operating", 1);
-//        departmentOrTopRole.put("Product", 1);
-//        departmentOrTopRole.put("Scheme", 1);
-//        departmentOrTopRole.put("Growth", 1);
-//        departmentOrTopRole.put("Brand", 1);
-//        departmentOrTopRole.put("Sales", 1);
-//        departmentOrTopRole.put("Networking", 1);
-//        departmentOrTopRole.put("Content", 1);
-//        departmentOrTopRole.put("Holacracy", 1);
-//        departmentOrTopRole.put("Data Protection", 1);
-//        departmentOrTopRole.put("Risk Appetite", 1);
-//        departmentOrTopRole.put("Business", 1);
-//
-//        String departmentOrTopRoleResult = weightedChoice(departmentOrTopRole);
-//
-//        if (new Random().nextInt(4) == 0) {
-//            Map<String, Integer> managing = new HashMap<>();
-//            managing.put("Managing ", 1);
-//            managing.put("Acting ", 1);
-//            managing.put("General", 1);
-//            managing.put("", 5);
-//
-//            Map<String, Integer> vice = new HashMap<>();
-//            vice.put("Vice ", 10);
-//            vice.put("Corporate Vice ", 1);
-//            vice.put("", 29);
-//
-//            Map<String, Integer> co = new HashMap<>();
-//            co.put("Co-", 1);
-//            co.put("", 4);
-//
-//            String managingResult = weightedChoice(managing);
-//            String viceResult = weightedChoice(vice);
-//            String coResult = weightedChoice(co);
-//
-//            String[] titles = {viceResult + coResult + "Director", coResult + "Chief", coResult + "Head",
-//                    viceResult + coResult + "President", "Supervisor", coResult + "Manager"};
-//            String title = titles[new Random().nextInt(titles.length)];
-//
-//            Map<String, Integer> age = new HashMap<>();
-//            age.put("Senior ", 1);
-//            age.put("", 3);
-//
-//            Map<String, Integer> exec_ = new HashMap<>();
-//            exec_.put("Excutive ", 1);
-//            exec_.put("Principal ", 1);
-//            exec_.put("", 10);
-//
-//            String ageResult = weightedChoice(age);
-//            String execResult = weightedChoice(exec_);
-//
-//            return managingResult + ageResult + execResult + title + " of " + department;
-//        }
-//
-//        Map<String, Integer> groupal = new HashMap<>();
-//        groupal.put("Group ", 1);
-//        groupal.put("Global ", 1);
-//        groupal.put("", 18);
-//
-//        Map<String, Integer> officerOrCatalyst = new HashMap<>();
-//        officerOrCatalyst.put("Catalyst", 1);
-//        officerOrCatalyst.put("Futurist", 1);
-//        officerOrCatalyst.put("Strategist", 1);
-//        officerOrCatalyst.put("Technologist", 1);
-//        officerOrCatalyst.put("Evangelist", 1);
-//        officerOrCatalyst.put("Officer", 15);
-//
-//        String groupalResult = weightedChoice(groupal);
-//        String officerOrCatalystResult = weightedChoice(officerOrCatalyst);
-//
-//        return groupalResult + abbreviate("Chief " + departmentOrTopRoleResult + " " +
-//                officerOrCatalystResult, 0.6);
-//    }
 
 
     public static String weightedChoice(Map<String, Integer> choices) {
@@ -225,18 +125,7 @@ public class CbsgMain {
     }
 
     public static String boss() {
-        String department = randomChoice(List.of(
-                "steering committee", "group", "project manager", "community",
-                "sales manager", "enabler", "powerful champion",
-                "thought leader", "gatekeeper", "resource",
-                "senior support staff", "brand manager", "category manager",
-                "account executive", "project leader", "product manager",
-                "naming committee", "executive committee",
-                "white-collar workforce", "innovator", "game changer",
-                "visionary", "market thinker", "network", "initiator",
-                "change agent", "rockstar", "facilitator", "disruptor",
-                "challenger", "six-sigma black belt"
-        ));
+        String department = randomChoice(dict.stringList(WORD_BOSS_DEPARTMENT));
         Map<String, Integer> departmentOrTopRoleMap = new HashMap<>();
         departmentOrTopRoleMap.put("department", 42);
         departmentOrTopRoleMap.put("Visionary", 1);
@@ -289,60 +178,24 @@ public class CbsgMain {
             if (r == 1) {
                 return thingAtom(rand.nextBoolean()) + " champion";
             } else if (r <= 32) {
-                return randomChoice(List.of(
-                        "steering committee", "group", "project manager", "community",
-                        "sales manager", "enabler", "powerful champion",
-                        "thought leader", "gatekeeper", "resource",
-                        "senior support staff", "brand manager", "category manager",
-                        "account executive", "project leader", "product manager",
-                        "naming committee", "executive committee",
-                        "white-collar workforce", "innovator", "game changer",
-                        "visionary", "market thinker", "network", "initiator",
-                        "change agent", "rockstar", "facilitator", "disruptor",
-                        "challenger", "six-sigma black belt"
-                ));
+                return randomChoice(dict.stringList(WORD_PERSON_NOT_PLURAL));
             }
             return boss();
         }
-        return randomChoice(List.of(
-                "key people", "human resources", "customers", "clients", "resources",
-                "team players", "enablers", "stakeholders", "standard-setters",
-                "partners", "business leaders", "thinkers/planners",
-                "white-collar workers", "board-level executives",
-                "key representatives", "innovators", "policy makers", "pioneers",
-                "game changers", "market thinkers", "thought leaders", "mediators",
-                "facilitators", "attackers", "initiators", "decision makers",
-                "Growth Hackers", "Digital Marketers", "Creative Technologists",
-                "Products Managers", "Products Owners", "disruptors", "challengers"
-        ));
+        return randomChoice(dict.stringList(WORD_PERSON_PLURAL));
     }
 
 
     public static String timelessEvent() {
-        return randomChoice(List.of("kick-off", "roll-out", "client event", "quarterly results"));
+        return randomChoice(dict.stringList(WORD_TIMELESS_EVENT));
     }
 
     public static String growthAtom() {
-        return randomChoice(List.of(
-                "growth", "improvement", "throughput increase", "efficiency gain",
-                "yield enhancement", "expansion", "productivity improvement",
-                "gain in task efficiency", "shift in value", "increase in margins",
-                "cost reduction", "cost effectiveness", "level of change",
-                "revenue growth", "profits growth", "growth momentum",
-                "increase in sales", "run-rate efficiency"
-        ));
+        return randomChoice(dict.stringList(WORD_GROWTH_ATOM_NOT_PLURAL));
     }
 
     public static String growth() {
-        String superlative = randomChoice(List.of(
-                "organic", "double-digit", "upper single-digit", "breakout",
-                "unprecedented", "unparallelled", "proven", "measured", "sustained",
-                "sustainable", "robust", "solid", "rock-solid", "healthy",
-                "incremental", "significant", "recurring", "sizeable", "rapid",
-                "breakneck", "profitable", "disciplined", "accelerated", "impressive",
-                "superior", "attractive-enough", "continual", "above-potential",
-                "better-than-average", "exponential", "long-term", "future"
-        ));
+        String superlative = randomChoice(dict.stringList(WORD_GROWTH_NOT_PLURAL));
         return superlative + " " + growthAtom();
     }
 
@@ -382,78 +235,7 @@ public class CbsgMain {
             return veryImportantAbbreviation;
         }
 
-        return randomChoice(List.of(
-                "mission", "vision", "guideline", "roadmap", "timeline",
-                "win-win solution", "baseline starting point", "sign-off",
-                "escalation", "system", "planning", "target", "calibration",
-                "process", "talent", "execution", "leadership", "performance",
-                "solution provider", "value", "value creation",
-                "value realization", "document", "bottom line", "momentum",
-                "opportunity", "credibility", "issue", "core meeting", "platform",
-                "niche", "content", "communication", "goal", "value creation goal",
-                "alternative", "culture", "requirement", "potential", "challenge",
-                "empowerment", "benchmarking", "framework", "benchmark",
-                "implication", "integration", "enabler", "control", "trend",
-                "business case", "architecture", "action plan", "project",
-                "review cycle", "trigger event", "strategy formulation",
-                "decision", "enhanced data capture", "energy", "plan",
-                "initiative", "priority", "synergy", "incentive", "dialogue",
-                "concept", "time-phase", "projection", "blended approach",
-                "low hanging fruit", "forward planning", "pre-plan", "pipeline",
-                "bandwidth", "workshop", "paradigm", "paradigm shift",
-                "strategic staircase", "cornerstone", "executive talent",
-                "evolution", "workflow", "message", "risk/return profile",
-                "efficient frontier", "pillar", "internal client", "consistency",
-                "on-boarding process", "dotted line", "action item",
-                "cost efficiency", "channel", "convergence", "infrastructure",
-                "metric", "technology", "relationship", "partnership",
-                "supply-chain", "portal", "solution", "business line",
-                "white paper", "scalability", "innovation", "Balanced Scorecard",
-                "key differentiator", "competitive differentiator",
-                "idiosyncrasy", "benefit", "say/do ratio", "segmentation",
-                "image", "business model", "business philosophy", "branding",
-                "methodology", "profile", "measure", "measurement", "philosophy",
-                "branding strategy", "efficiency", "industry", "commitment",
-                "perspective", "risk appetite", "best practice",
-                "brand identity", "customer centricity", "shareholder value",
-                "attitude", "mindset", "flexibility", "granularity", "engagement",
-                "pyramid", "market", "diversity", "interdependency", "scaling",
-                "asset", "flow charting", "value proposition",
-                "performance culture", "change", "reward", "learning",
-                "next step", "delivery framework", "structure",
-                "support structure", "standardization", "objective", "footprint",
-                "transformation process", "policy", "sales target", "ecosystem",
-                "market practice", "atmosphere", "operating strategy",
-                "core competency", "market practice", "operating strategy",
-                "insight", "accomplishment", "correlation", "touch point",
-                "knowledge transfer", "correlation", "capability", "gamification",
-                "smooth transition", "leadership strategy", "collaboration",
-                "success factor", "lever", "breakthrough", "open-door policy",
-                "recalibration", "wow factor", "onboarding solution",
-                "brand pyramid", "dashboard", "branding",
-                "local-for-local strategy", "cross-sell message",
-                "up-sell message", "divisional structure", "value chain",
-                "microsegment", "rollout plan", "architectural approach",
-                "brand value", "milestone", "co-innovation", "speedup",
-                "validation", "skill", "skillset", "feedback", "learnability",
-                "visibility", "agility", "simplification", "digitization",
-                "streamlining", "brainstorming space", "crowdsourcing",
-                "big-bang approach", "execution message", "criticality",
-                "opportunity pipeline", "reorganization", "synergization",
-                "socialization", "strategic shift", "growth engine", "tailwind",
-                "accelerator", "deliverable", "takeaway", "insourcing",
-                "outsourcing", "careful consideration", "conviction", "initiator",
-                "operating model", "proof-point", "bounce rate",
-                "marketing funnel", "offshoring", "quick-win", "cross-pollination",
-                "hybridation", "positioning", "reinvention", "functionality",
-                "mindshare", "mobility space", "decision-to-execution cycle",
-                "adjustment", "force management program", "launchpad",
-                "value-chain", "motion", "customer-orientation", "realignment",
-                "governmentalization", "case study", "blockchain",
-                "Innovation Incubator", "input", "scope", "action", "context",
-                "next level", "topology", "data point", "enablement",
-                "test-first design"
-        ));
+        return randomChoice(dict.stringList(WORD_THING_INNER));
     }
 
     private static String matrixOrSO() {
@@ -485,76 +267,7 @@ public class CbsgMain {
                     thing = abbreviate("Customer Experience Management", 0.5);
                     break;
                 default:
-                    thing = randomChoice(List.of(
-                            "team building", "focus", "strategy",
-                            "planning granularity", "core business", "implementation",
-                            "intelligence", "change management", "ROE", "EBITDA",
-                            "enterprise content management", "excellence", "trust",
-                            "respect", "openness", "transparency", "decision making",
-                            "risk management", "enterprise risk management", "leverage",
-                            "diversification", "successful execution",
-                            "effective execution", "selectivity", "optionality",
-                            "expertise", "awareness", "broader thinking", "client focus",
-                            "thought leadership", "quest for quality",
-                            "360-degree thinking", "drill-down", "impetus", "fairness",
-                            "intellect", "emotional impact", "emotional intelligence",
-                            "adaptability", "stress management", "self-awareness",
-                            "strategic thinking", "cross-fertilization", "effectiveness",
-                            "SWOT analysis", "responsibility", "accountability", "ROI",
-                            "line of business", "serviceability", "responsiveness",
-                            "simplicity", "portfolio shaping", "knowledge sharing",
-                            "continuity", "visual thinking", "interoperability",
-                            "compliance", "teamwork", "self-efficacy", "decision-maker",
-                            "line-of-sight", "scoping", "line-up", "predictability",
-                            "recognition", "investor confidence", "competitive advantage",
-                            "uniformity", "competitiveness", "big picture",
-                            "resourcefulness", "quality", "upside focus", "sustainability",
-                            "resiliency", "social sphere", "intuitiveness",
-                            "effectiveness", "competitiveness", "resourcefulness",
-                            "informationalization", "role building", "talent retention",
-                            "innovativeness", "Economic Value Creation",
-                            "intellectual capital", "high quality",
-                            "full range of products", "technical strength",
-                            "quality assurance", "specification quality",
-                            "market environment", "client perspective",
-                            "solution orientation", "client satisfaction", "integrity",
-                            "reputation", "time-to-market", "innovative edge",
-                            "book value growth", "global network", "ability to deliver",
-                            "active differentiation", "solid profitability",
-                            "core capacity", "digital economy",
-                            "white-collar productivity", "white-collar efficiency",
-                            "governance", "corporate governance", "business development",
-                            "corporate identity", "attractiveness", "design philosophy",
-                            "global footprint", "risk taking", "focus on speed",
-                            "business equation", "edge", "ownership",
-                            "competitive success", "discipline", "knowledge management",
-                            "ability to move fast", "ingenuity", "insightfulness",
-                            "integrativeness", "customer footprint", "time-to-value",
-                            "efficacy", "DNA", "dedication", "franchise", "global reach",
-                            "global touch-base", "technical excellence",
-                            "values congruence", "purpose", "catalyst for growth",
-                            "goal setting", "craftsmanship", "operational excellence",
-                            "re-engineering", "mindfulness", "quality thinking",
-                            "user experience", "speed of execution", "responsive design",
-                            "readiness to go 'all-in'", "machine intelligence",
-                            "creativity", "can-do attitude", "relevance", "disruption",
-                            "dematerialization", "disintermediation", "disaggregation",
-                            "wave of change", "digitalization", "CAPEX",
-                            "window of opportunity", "beta", "coopetition",
-                            "digital change", "business excellence", "business impact",
-                            "business acumen", "leadership culture", "glocalization",
-                            "re-equitizing", "cost rationalization",
-                            "strategic optionality", "product expertise", "velocity",
-                            "elasticity", "value stream management",
-                            "digital acceleration", "quality control", "decision-making",
-                            "digital business", "Organizational Intelligence",
-                            "Business Intelligence", "self-actualization",
-                            "leadership effectiveness", "customer's journey",
-                            "adding services", "centerpiece", "modern simplicity",
-                            "cost control", "operations delivery", "guidance",
-                            "onboarding", "cost structure", "traction", "ethos",
-                            "auditability"
-                    ));
+                    thing = randomChoice(dict.stringList(WORD_THING_ATOM));
             }
             if (r < 201) {
                 return thing;
@@ -564,23 +277,7 @@ public class CbsgMain {
         } else {
             int r = rand.nextInt(310);
             if (r <= 40) {
-                return randomChoice(List.of(
-                        "key target markets", "style guidelines",
-                        "key performance indicators", "market conditions",
-                        "market forces", "market opportunities", "tactics",
-                        "organizing principles", "interpersonal skills",
-                        "roles and responsibilities", "cost savings",
-                        "lessons learned", "client needs", "requests / solutions",
-                        "mobile strategies", "expectations and allocations",
-                        "workshops", "dynamics", "options", "aspirations",
-                        "swim lanes", "pockets of opportunities",
-                        "social implications", "analytics", "advanced analytics",
-                        "growth years", "big data", "adjacencies", "core competences",
-                        "strengths", "corporate values", "core values",
-                        "competitive dynamics", "workforce adjustments",
-                        "lessons learned", "core verticals", "metrics",
-                        "cost-control measures", "expectations", "data practices"
-                ));
+                return randomChoice(dict.stringList(WORD_THING_ATOM_PLURAL));
             } else {
                 return makeEventualPlural(thingInner(), true);
             }
@@ -590,160 +287,16 @@ public class CbsgMain {
 
 
     public static String badThings() {
-        return randomChoice(List.of(
-                "issues", "intricacies", "organizational diseconomies", "black swans",
-                "challenging market conditions", "inefficiencies", "overlaps",
-                "known unknowns", "unknown unknowns", "soft cycle issues", "obstacles",
-                "surprises", "weaknesses", "threats", "barriers to success",
-                "barriers", "barriers to growth", "problems", "uncertainties",
-                "unfavorable developments", "consumer/agent disconnects",
-                "underperforming areas", "information overloads", "concerns",
-                "shortfalls", "limitations", "downtimes", "headwinds",
-                "subpar returns", "gaps", "market gaps", "capability gaps",
-                "constraints", "problems/difficulties", "bottlenecks",
-                "misunderstandings", "dilemmas", "interdependencies",
-                "discontinuities", "hiccups", "vulnerabilities",
-                "negative cash flows", "net profit revenue deficiencies",
-                "negative contributions to profits", "shortcomings", "pitfalls",
-                "friction", "red flags", "roadblocks", "decision-making biases"
-        ));
+        return randomChoice(dict.stringList(WORD_BAD_THINGS));
     }
 
     public static String thingAdjective() {
-        return randomChoice(List.of(
-                "efficient", "strategic", "constructive", "proactive", "strong",
-                "key", "global", "corporate", "cost-effective", "focused", "top-line",
-                "credible", "agile", "holistic", "new", "adaptive", "optimal",
-                "unique", "core", "compliant", "goal-oriented", "non-linear",
-                "problem-solving", "prioritizing", "cultural", "future-oriented",
-                "potential", "versatile", "leading", "dynamic", "progressive",
-                "non-deterministic", "informed", "leveraged", "challenging",
-                "intelligent", "controlled", "educated", "non-standard", "underlying",
-                "centralized", "decentralized", "reliable", "consistent", "competent",
-                "prospective", "collateral", "functional", "tolerably expensive",
-                "organic", "forward-looking", "next-level", "executive", "seamless",
-                "spectral", "balanced", "effective", "integrated", "systematized",
-                "parallel", "responsive", "synchronized", "carefully-designed",
-                "carefully thought-out", "cascading", "high-level", "siloed",
-                "operational", "future-ready", "flexible", "movable", "right",
-                "productive", "evolutionary", "overarching", "documented", "awesome",
-                "coordinated", "aligned", "enhanced", "control-based",
-                "industry-standard", "accepted", "agreed-upon", "target",
-                "customer-centric", "wide-spectrum", "well-communicated",
-                "cutting-edge", "state-of-the-art", "verifiable", "six-sigma", "solid",
-                "inspiring", "growing", "market-altering", "vertical", "emerging",
-                "differentiating", "integrative", "cross-functional", "measurable",
-                "well-planned", "accessible", "actionable", "accurate", "insightful",
-                "relevant", "long-term", "longer-term", "tactical", "best-of-breed",
-                "robust", "targeted", "personalized", "interactive", "streamlined",
-                "transparent", "traceable", "far-reaching", "powerful", "improved",
-                "executive-level", "goal-based", "top-level", "cooperative",
-                "value-adding", "streamlining", "time-honored", "idiosyncratic",
-                "sustainable", "in-depth", "immersive", "cross-industry",
-                "time-phased", "day-to-day", "present-day", "modern-day",
-                "profit-maximizing", "generic", "granular", "values-based",
-                "value-driven", "well-defined", "outward-looking", "scalable",
-                "strategy-focused", "promising", "collaborative", "scenario-based",
-                "principle-based", "vision-setting", "client-oriented",
-                "long-established", "established", "organizational", "visionary",
-                "trusted", "full-scale", "firm-wide", "fast-growth",
-                "performance-based", "data-inspired", "high-performance",
-                "cross-enterprise", "outsourced", "situational", "bottom-up",
-                "multidisciplinary", "one-to-one", "goal-directed",
-                "intra-organisational", "high-performing", "multi-source",
-                "360-degree", "motivational", "differentiated", "solutions-based",
-                "compelling", "structural", "go-to-market", "on-message",
-                "productivity-enhancing", "value-enhancing", "mission-critical",
-                "business-enabling", "transitional", "future", "game-changing",
-                "enterprise-wide", "rock-solid", "bullet-proof", "superior",
-                "genuine", "alert", "nimble", "phased", "selective", "macroscopic",
-                "low-risk high-yield", "interconnected", "high-margin", "resilient",
-                "high-definition", "well-crafted", "fine-grained", "context-aware",
-                "multi-tasked", "feedback-based", "analytics-based", "fact-based",
-                "usage-based", "multi-channel", "omni-channel", "cross-channel",
-                "specific", "heart-of-the-business", "responsible",
-                "socially conscious", "results-centric", "business-led",
-                "well-positioned", "end-to-end", "high-quality", "siloed", "modular",
-                "service-oriented", "competitive", "scale-as-you-grow", "outside-in",
-                "hyper-hybrid", "long-running", "large-scale", "wide-ranging",
-                "wide-range", "stellar", "dramatic", "aggressive", "innovative",
-                "high-powered", "above-average", "result-driven", "innovation-driven",
-                "customized", "outstanding", "non-mainstream", "customer-facing",
-                "consumer-facing", "unified", "cooperative", "laser-focused",
-                "well-implemented", "diversifying", "market-changing",
-                "metrics-driven", "pre-integrated", "solution-oriented", "impactful",
-                "world-class", "front-end", "leading-edge", "cost-competitive",
-                "extensible", "under-the-radar", "high-grade", "structured",
-                "trust-based", "intra-company", "inter-company", "profit-oriented",
-                "sizeable", "highly satisfactory", "bi-face", "tri-face", "disruptive",
-                "technological", "marketplace", "fast-evolving", "open",
-                "fully networked", "adoptable", "trustworthy", "science-based",
-                "non-manufacturing", "multi-divisional", "controllable",
-                "high-priority", "market-driven", "market-driving", "ingenious",
-                "business-for-business", "inspirational", "winning", "boundaryless",
-                "reality-based", "customer-focused", "preemptive", "location-specific",
-                "revealing", "inventory-planning", "ubiquitous", "number-one",
-                "results-oriented", "socially enabled", "well-scoped", "insight-based",
-                "high-impact", "technology-driven", "knowledge-based",
-                "information-age", "technology-centered", "critical", "cognitive",
-                "acculturated", "client-centric", "comprehensive", "ground-breaking",
-                "long-standing", "accelerating", "forward-thinking", "mind-blowing",
-                "jaw-dropping", "transformative", "better-than-planned", "vital",
-                "radical", "expanding", "fierce", "single-minded", "mindful",
-                "top-down", "hands-on", "one-on-one", "analytic", "top", "elite",
-                "dedicated", "curated", "highly-curated", "re-imagined",
-                "thought-provoking", "quality-oriented", "task-oriented",
-                "teamwork-oriented", "high-growth", "next-gen", "next-generation",
-                "new-generation", "best-in-class", "best-of-class", "first-class",
-                "top-class", "superior-quality", "synergistic", "micro-macro",
-                "organization-wide", "clear-cut", "data-driven", "evidence-based",
-                "transformational", "fast-paced", "real-time", "pre-approved",
-                "unconventional", "advanced-analytics", "insight-driven",
-                "sprint-based", "digitized", "hypothesis-driven", "governance-related",
-                "convergent", "leadership-defined", "operations-oriented",
-                "long-range", "dimensional", "award-winning", "user-centric",
-                "first-to-market", "first-mover", "cross-platform", "on-the-go",
-                "all-encompassing", "matrixed", "growth-enabling", "skills-based",
-                "bottom-line", "top-shelf", "insourced", "out-of-the-box", "engaging",
-                "on- and offline", "goals-based", "enriching", "medium-to-long-term",
-                "adequate", "awareness-raising", "compatible", "supportive",
-                "inspired", "high-return", "turn-key", "turnkey", "decision-ready",
-                "diversified", "demanding", "ambitious", "domain-relevant", "novel",
-                "pre-planned", "well-respected", "market-based", "distributor-based",
-                "area-wide", "movements-based", "ever-changing", "purpose-driven",
-                "resourceful", "real-life", "vibrant", "bright", "pure-play",
-                "bespoke", "pivotal", "efficiency-enhancing", "multi-level", "rich",
-                "frictionless", "up-to-the-minute", "sourced", "outcome-driven",
-                "hyperaware", "high-velocity", "lean", "unmatched", "industry-leading",
-                "multi-sided", "tailor-made", "contingent", "tangent",
-                "moment-centric", "real-world", "inclusive", "efficiency-enabling",
-                "value-creating", "alternative", "fit-for-purpose", "fast-changing",
-                "onboarded", "active", "container packaged", "dynamically managed",
-                "microservices-oriented", "higher-quality", "brute-force",
-                "enterprise-sales-driven", "developer-led", "fast-track",
-                "highly differentiated", "quick-to-deploy", "efficiency-focused",
-                "as-a-service", "cloud-based", "activity-centric", "data-centric",
-                "activity-focused", "data-focused", "workforce-focused",
-                "organization-focused", "spot-on", "distributed", "deterministic",
-                "converged", "on-premise", "company-first", "multi-vendor",
-                "contextual", "hybrid", "higher-level", "user-driven", "full-stack",
-                "build-as-you-go", "fully-digital", "agent-based", "AI-ready",
-                "managerial", "industry-recognized", "top-ranking"
-        ));
+        return randomChoice(dict.stringList(WORD_THING_ADJECTIVE));
     }
 
     public static String eventualAdverb() {
         if (rand.nextInt(4) == 1) {
-            return randomChoice(List.of(
-                    "interactively", "credibly", "quickly", "proactively", "200%",
-                    "24/7", "globally", "culturally", "technically", "strategically",
-                    "swiftly", "cautiously", "expediently", "organically",
-                    "carefully", "significantly", "conservatively", "adequately",
-                    "genuinely", "efficiently", "seamlessly", "consistently",
-                    "diligently", "dramatically", "straightforwardly",
-                    "differentially", "gradually", "aggressively", "cost-effectively",
-                    "proactively", "inherently", "directionally"
-            )) + " ";
+            return randomChoice(dict.stringList(WORD_ADVERB_EVENTUAL)) + " ";
         }
         return "";
     }
@@ -803,29 +356,7 @@ public class CbsgMain {
     }
 
     public static String innerPersonVerbHavingThingComplement() {
-        return randomChoice(List.of(
-                "manage", "target", "streamline", "improve", "optimize", "achieve",
-                "secure", "address", "boost", "deploy", "innovate", "right-scale",
-                "formulate", "transition", "leverage", "focus on", "synergize",
-                "generate", "analyse", "integrate", "empower", "benchmark", "learn",
-                "adapt", "enable", "strategize", "prioritize", "pre-prepare",
-                "deliver", "champion", "embrace", "enhance", "engineer", "envision",
-                "incentivize", "maximize", "visualize", "whiteboard",
-                "institutionalize", "promote", "overdeliver", "right-size",
-                "rebalance", "re-imagine", "influence", "facilitate", "drive",
-                "structure", "standardize", "accelerate", "deepen", "strengthen",
-                "broaden", "enforce", "establish", "foster", "build", "differentiate",
-                "take a bite out of", "table", "flesh out", "reach out", "jump-start",
-                "co-create", "capitalize on", "calibrate", "re-aggregate",
-                "articulate", "iterate", "reinvest in", "potentiate", "front-face",
-                "co-develop", "take control of", "robustify", "harness", "activate",
-                "showcase", "cherry-pick", "digitize", "re-invent", "springboard",
-                "solutionize", "re-content", "commoditize", "be eager for",
-                "productize", "repurpose", "reenergize", "co-specify", "codify",
-                "cross-pollinate", "ignite", "transgenerate", "orchestrate",
-                "envisioneer", "reintermediate", "reframe", "control", "ideate",
-                "reprioritize", "operate", "cascade"
-        ));
+        return randomChoice(dict.stringList(WORD_PERSON_INNER_HAVING_THING_COMPLEMENT));
     }
 
     public static String personVerbHavingThingComplement(boolean plural, boolean infinite) {
@@ -839,21 +370,6 @@ public class CbsgMain {
         String inner = randomChoice(List.of(
                 "address", "identify", "avoid", "mitigate", "minimize", "overcome",
                 "tackle", "reduce", "alleviate", "filter out", "remove", "prevent"
-        ));
-        return buildPluralVerb(inner, plural);
-    }
-
-    public static String personVerbHavingThingComplement(boolean plural) {
-        String inner = randomChoice(List.of(
-                "streamline", "interact with", "boost", "generate", "impact",
-                "enhance", "leverage", "synergize", "generate", "empower", "enable",
-                "prioritize", "transfer", "drive", "result in", "promote",
-                "influence", "facilitate", "aggregate", "architect", "cultivate",
-                "engage", "structure", "standardize", "accelerate", "deepen",
-                "strengthen", "enforce", "foster", "turbocharge", "granularize",
-                "operationalize", "reconceptualize", "iterate", "revolutionise",
-                "digitize", "solutionize", "lead to", "reenergize", "restructure",
-                "cross-pollinate", "ignite", "transgenerate"
         ));
         return buildPluralVerb(inner, plural);
     }
@@ -875,17 +391,7 @@ public class CbsgMain {
     }
 
     public static String thingVerbHavingThingComplement(boolean plural) {
-        String inner = randomChoice(List.of(
-                "streamline", "interact with", "boost", "generate", "impact",
-                "enhance", "leverage", "synergize", "generate", "empower", "enable",
-                "prioritize", "transfer", "drive", "result in", "promote",
-                "influence", "facilitate", "aggregate", "architect", "cultivate",
-                "engage", "structure", "standardize", "accelerate", "deepen",
-                "strengthen", "enforce", "foster", "turbocharge", "granularize",
-                "operationalize", "reconceptualize", "iterate", "revolutionise",
-                "digitize", "solutionize", "lead to", "reenergize", "restructure",
-                "cross-pollinate", "ignite", "transgenerate"
-        ));
+        String inner = randomChoice(dict.stringList(WORD_THING_VERB_HAVING_COMPLEMENT));
         return buildPluralVerb(inner, plural);
     }
 
@@ -896,7 +402,7 @@ public class CbsgMain {
             return (thingVerbHavingThingComplement(plural) + " " +
                     thingWithRandomArticle(compl_sp));
         } else if (r < 100) {
-            return (thingVerbHavingThingComplement(plural) + " the " +
+            return (personVerbHavingPersonComplement(plural) + " the " +
                     person(compl_sp));
         }
         return thingVerbAndDefiniteEnding(plural);
@@ -922,16 +428,7 @@ public class CbsgMain {
     public static String faukon() {
         int r = rand.nextInt(16);
         if (r < 15) {
-            return randomChoice(List.of(
-                    "we need to", "we've got to", "the reporting unit should",
-                    "controlling should", "pursuing this route will enable us to",
-                    "we will go the extra mile to", "we are working hard to",
-                    "we continue to work tirelessly and diligently to",
-                    "we will execute to", "we will sharpen our business models to",
-                    "to continue our growth, we must", "we are going to",
-                    "we look forward to working together to",
-                    "in order to improve, you need to", "trending your numbers should"
-            ));
+            return randomChoice(dict.stringList(WORD_FAUKON));
         }
         return "we must activate the " + matrixOrSO() + " to";
     }
@@ -940,25 +437,7 @@ public class CbsgMain {
         boolean plural = rand.nextBoolean();
         int r = rand.nextInt(255);
         if (r <= 38) {
-            return randomChoice(List.of(
-                    " going forward", " within the industry", " across the board",
-                    " in this space", " from the get-go", " at the end of the day",
-                    " throughout the organization", " as part of the plan",
-                    " by thinking outside of the box", " ahead of schedule",
-                    ", relative to our peers", " on a transitional basis",
-                    " by expanding boundaries", " by nurturing talent",
-                    ", as a Tier 1 company", " up-front", " on-the-fly",
-                    " across our portfolio", " 50/50", " in the marketplace",
-                    " by thinking and acting beyond boundaries",
-                    " at the individual, team and organizational level",
-                    " over the long term", " across geographies", " in the core",
-                    " across industry sectors", " across the wider Group",
-                    " by levelling the playing field", " on a day-to-day basis",
-                    " across boundaries", " within the community",
-                    " from within the data", " round-the-clock", " moving forward",
-                    " downstream", " down the chain", " in the space",
-                    " across the entire spectrum"
-            ));
+            return randomChoice(dict.stringList(WORD_ADVERB_EVENTUAL_POSTFIXED));
         }
         switch (r) {
             case 39:
@@ -1015,55 +494,7 @@ public class CbsgMain {
                         personInfinitiveVerbAndEnding());
                 break;
             default:
-                randomChoice(List.of(
-                        "streamline the process", "address the overarching issues",
-                        "benchmark the portfolio", "manage the cycle",
-                        "figure out where we come from, where we are going to",
-                        "maximize the value", "execute the strategy",
-                        "think out of the box", "think differently", "manage the balance",
-                        "loop back", "conversate", "go forward together",
-                        "achieve efficiencies", "deliver", "stay in the mix",
-                        "stay in the zone", "evolve", "exceed expectations",
-                        "develop the plan", "develop the blue print for execution",
-                        "grow and diversify", "fuel changes", "nurture talent",
-                        "turn every stone", "challenge established ideas",
-                        "manage the portfolio", "align resources",
-                        "drive the business forward", "make things happen", "stay ahead",
-                        "outperform peers", "surge ahead", "manage the downside",
-                        "stay in the wings", "come to a landing", "shoot it over",
-                        "move the needle", "connect the dots",
-                        "connect the dots to the end game", "reset the benchmark",
-                        "take it offline", "peel the onion", "drill down",
-                        "get from here to here", "do things differently",
-                        "stretch the status quo", "challenge the status quo",
-                        "challenge established ideas", "increase customer satisfaction",
-                        "enable customer interaction", "manage the balance",
-                        "turn every stone", "drive revenue", "rise to the challenge",
-                        "keep it on the radar", "stay on trend", "hunt the business down",
-                        "push the envelope to the tilt", "execute on priorities",
-                        "stand out from the crowd", "make the abstract concrete",
-                        "manage the mix", "grow", "accelerate the strategy",
-                        "enhance the strength", "create long-term value",
-                        "meet the challenges", "move the progress forward",
-                        "do the right projects", "do the projects right",
-                        "do more with less", "build winning teams",
-                        "deliver on commitments", "execute", "deliver",
-                        "see around the corner", "meet the surge", "celebrate the success",
-                        "circle back", "action forward", "move forward", "take control",
-                        "be cautiously optimistic", "be committed", "evolve our culture",
-                        "leverage the benefits of our differentiation",
-                        "stretch our data bucket", "leapfrog the competition",
-                        "take the elevator beyond the top floor", "stick to the knitting",
-                        "bring our vision to reality", "seize opportunities",
-                        "create momentum", "generate company momentum",
-                        "pursue new opportunities", "increase adherence",
-                        "focus on the right things", "open the kimono", "give 110%",
-                        "take it to the next level", "boil the ocean", "close the loop",
-                        "create value", "disrupt the status quo", "be on the same page",
-                        "deliver greater value for our customers",
-                        "generate new value for shareholders",
-                        "strengthen the balance sheet", "operate"
-                ));
+                inner = randomChoice(dict.stringList(WORD_PERSON_VERB_DEFINITE_ENDING));
         }
         if (infinitive) {
             return inner;
@@ -1136,32 +567,23 @@ public class CbsgMain {
     public static String articulatedPropositions() {
         int r = rand.nextInt(416);
         if (r <= 270) {
-            return proposition()
-                    ;
+            return proposition();
         } else if (r <= 280) {
-            return proposition() + "; this is why " + proposition()
-                    ;
+            return proposition() + "; this is why " + proposition();
         } else if (r <= 290) {
-            return proposition() + "; nevertheless " + proposition()
-                    ;
+            return proposition() + "; nevertheless " + proposition();
         } else if (r <= 300) {
-            return proposition() + ", whereas " + proposition()
-                    ;
+            return proposition() + ", whereas " + proposition();
         } else if (r <= 340) {
-            return proposition() + ", while " + proposition()
-                    ;
+            return proposition() + ", while " + proposition();
         } else if (r <= 350) {
-            return proposition() + ". In the same time, " + proposition()
-                    ;
+            return proposition() + ". In the same time, " + proposition();
         } else if (r <= 360) {
-            return proposition() + ". As a result, " + proposition()
-                    ;
+            return proposition() + ". As a result, " + proposition();
         } else if (r <= 370) {
-            return proposition() + ", whilst " + proposition()
-                    ;
+            return proposition() + ", whilst " + proposition();
         } else if (r <= 373) {
-            return "our gut-feeling is that " + proposition()
-                    ;
+            return "our gut-feeling is that " + proposition();
         } else if (r <= 376) {
             return ("the point is not merely to " +
                     personInfinitiveVerbAndEnding() +
@@ -1179,20 +601,15 @@ public class CbsgMain {
                     personInfinitiveVerbAndEnding())
                     ;
         } else if (r <= 386) {
-            return "going forward, " + proposition()
-                    ;
+            return "going forward, " + proposition();
         } else if (r <= 389) {
-            return "actually, " + proposition()
-                    ;
+            return "actually, " + proposition();
         } else if (r <= 392) {
-            return "in the future, " + proposition()
-                    ;
+            return "in the future, " + proposition();
         } else if (r <= 395) {
-            return "flat out, " + proposition()
-                    ;
+            return "flat out, " + proposition();
         } else if (r <= 398) {
-            return "first and foremost, " + proposition()
-                    ;
+            return "first and foremost, " + proposition();
         } else if (r <= 402) {
             return ("the game is all about " +
                     thingAtom(false) + ", " +
@@ -1207,17 +624,13 @@ public class CbsgMain {
                     thingAtom(false))
                     ;
         } else if (r == 403) {
-            return "in today's fast-changing world, " + proposition()
-                    ;
+            return "in today's fast-changing world, " + proposition();
         } else if (r == 404) {
-            return "internally and externally, " + proposition()
-                    ;
+            return "internally and externally, " + proposition();
         } else if (r == 405) {
-            return "our message is: " + proposition()
-                    ;
+            return "our message is: " + proposition();
         } else if (r == 406) {
-            return "in a data-first world, " + proposition()
-                    ;
+            return "in a data-first world, " + proposition();
         } else if (r == 407) {
             return "the future awaits"
                     ;
