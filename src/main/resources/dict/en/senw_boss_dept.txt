@@ -1,0 +1,17 @@
+42,department
+1,Visionary
+1,Digital
+1,Technical
+1,Manifesto
+1,Operating
+1,Product
+1,Scheme
+1,Growth
+1,Brand
+1,Sales
+1,Networking
+1,Content
+1,Holacracy
+1,Data Protection
+1,Risk Appetite
+1,Business

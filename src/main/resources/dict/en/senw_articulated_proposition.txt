@@ -1,0 +1,26 @@
+270,%s
+10,%s; this is why %s
+10,%s; nevertheless %s
+10,%s, whereas %s
+40, %s, while %s
+10,%s. In the same time, %s
+10,%s. As a result, %s
+10,%s, whilst %s
+3,our gut-feeling is that %s
+3,going forward, %s
+3,actually, %s
+3,in the future, %s
+3,flat out, %s
+3,first and foremost, %s
+1,in today's fast-changing world, %s
+1,internally and externally, %s
+1,our message is: %s
+1,in a data-first world, %s
+1, the future awaits
+1,success brings success";
+1,everyone is coming to grips with the fact that %s
+1,as the consumer and commerce landscape continues to evolve %s
+1,in an age of information, %s
+1,in a growing digital environment, %s
+20,$person
+20,$thing

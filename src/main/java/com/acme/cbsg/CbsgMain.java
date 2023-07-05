@@ -9,7 +9,7 @@ import static com.acme.cbsg.Constant.*;
 
 public class CbsgMain {
 
-    private static CbsgResourceUtil dict = new CbsgResourceUtil();
+    private final static CbsgResourceUtil dict = new CbsgResourceUtil();
 
     public static void main(String... args) {
         // Corporate Bullshit Generator
@@ -108,12 +108,9 @@ public class CbsgMain {
 
 
     public static String weightedChoice(Map<String, Integer> choices) {
-        int totalWeight = 0;
-        for (int weight : choices.values()) {
-            totalWeight += weight;
-        }
+        int totalWeight = choices.values().stream().mapToInt(Integer::intValue).sum();
 
-        int randomWeight = new Random().nextInt(totalWeight);
+        int randomWeight = rand.nextInt(totalWeight);
         for (Map.Entry<String, Integer> entry : choices.entrySet()) {
             randomWeight -= entry.getValue();
             if (randomWeight < 0) {
@@ -121,66 +118,43 @@ public class CbsgMain {
             }
         }
 
-        return null;
+        return "";
     }
 
     public static String boss() {
         String department = randomChoice(dict.stringList(WORD_BOSS_DEPARTMENT));
-        Map<String, Integer> departmentOrTopRoleMap = new HashMap<>();
-        departmentOrTopRoleMap.put("department", 42);
-        departmentOrTopRoleMap.put("Visionary", 1);
-        departmentOrTopRoleMap.put("Digital", 1);
-        departmentOrTopRoleMap.put("Technical", 1);
-        departmentOrTopRoleMap.put("Manifesto", 1);
-        departmentOrTopRoleMap.put("Operating", 1);
-        departmentOrTopRoleMap.put("Product", 1);
-        departmentOrTopRoleMap.put("Scheme", 1);
-        departmentOrTopRoleMap.put("Growth", 1);
-        departmentOrTopRoleMap.put("Brand", 1);
-        departmentOrTopRoleMap.put("Sales", 1);
-        departmentOrTopRoleMap.put("Networking", 1);
-        departmentOrTopRoleMap.put("Content", 1);
-        departmentOrTopRoleMap.put("Holacracy", 1);
-        departmentOrTopRoleMap.put("Data Protection", 1);
-        departmentOrTopRoleMap.put("Risk Appetite", 1);
-        departmentOrTopRoleMap.put("Business", 1);
-        String departmentOrTopRole = weightedChoice(departmentOrTopRoleMap);
+        String departmentOrTopRole = weightedChoice(dict.sentenceWithWeight(SENW_BOSS_DEPT));
 
         if (rand.nextInt(4) == 1) {
-            String managing = weightedChoice(Map.of(
-                    "Managing ", 1, "Acting ", 1, "General", 1, "", 5));
-            String vice = weightedChoice(Map.of(
-                    "Vice ", 10, "Corporate Vice ", 1, "", 29));
-            String co = weightedChoice(Map.of("Co-", 1, "", 4));
-            String title = randomChoice(List.of(
-                    vice + co + "Director", co + "Chief", co + "Head",
-                    vice + co + "President", "Supervisor", co + "Manager"
-            ));
-            String age = weightedChoice(Map.of("Senior ", 1, "", 3));
-            String exec_ = weightedChoice(Map.of("Excutive ", 1, "Principal ", 1, "", 10));
-            return managing + age + exec_ + title + " of " + department;
+            String managing = weightedChoice(dict.sentenceWithWeight(SENW_BOSS_MANAGING));
+            String vice = weightedChoice(dict.sentenceWithWeight(SENW_BOSS_VICE));
+            String co = weightedChoice(dict.sentenceWithWeight(SENW_BOSS_CO));
+            String title = String.format(weightedChoice(dict.sentenceWithWeight(SENW_BOSS_TITLE)), co, vice);
+
+            String age = weightedChoice(dict.sentenceWithWeight(SENW_BOSS_AGE));
+            String executive = weightedChoice(dict.sentenceWithWeight(SENW_BOSS_EXECUTIVE));
+            return managing + age + executive + title + " of " + department;
         }
-        String groupal = weightedChoice(Map.of(
-                "Group ", 1, "Global ", 1, "", 18
-        ));
-        String officerOrCatalyst = weightedChoice(Map.of(
-                        "Catalyst", 1, "Futurist", 1, "Strategist", 1, "Technologist", 1,
-                        "Evangelist", 1, "Officer", 15
-                )
-        );
+        String groupal = weightedChoice(dict.sentenceWithWeight(SENW_BOSS_GROUPAL));
+        String officerOrCatalyst = weightedChoice(dict.sentenceWithWeight(SENW_BOSS_OFFICER));
         return groupal + abbreviate("Chief " + departmentOrTopRole + " " +
                 officerOrCatalyst, 0.6);
     }
 
     public static String person(boolean plural) {
         if (!plural) {
-            int r = rand.nextInt(46);
-            if (r == 1) {
-                return thingAtom(rand.nextBoolean()) + " champion";
-            } else if (r <= 32) {
-                return randomChoice(dict.stringList(WORD_PERSON_NOT_PLURAL));
+            String personTemplate = weightedChoice(dict.sentenceWithWeight(SENW_PERSON));
+            if("$boss".equals(personTemplate)){
+                // no question
+                return boss();
             }
-            return boss();
+            String person = "";
+            try {
+                person = String.format(personTemplate, thingAtom(rand.nextBoolean()));
+            }catch (Exception ex){
+                // nobody cares, goto default
+            }
+            return ("".equals(person)) ? randomChoice(dict.stringList(WORD_PERSON_NOT_PLURAL)) : person;
         }
         return randomChoice(dict.stringList(WORD_PERSON_PLURAL));
     }
@@ -200,58 +174,26 @@ public class CbsgMain {
     }
 
     public static String thingInner() {
-        int r = rand.nextInt(270);
-
-        if (r <= 194) {
-            return matrixOrSO();
-        }
-        String veryImportantAbbreviation = "";
-        // this 5 can be anything
-        switch (r) {
-            case 195:
-                veryImportantAbbreviation = abbreviate("Management Information System", 0.5);
-                break;
-            case 196:
-                veryImportantAbbreviation = abbreviate("Management Information System", 0.5);
-                break;
-            case 197:
-                veryImportantAbbreviation = abbreviate("Quality Management System", 0.5);
-                break;
-            case 198:
-                veryImportantAbbreviation = abbreviate("Control Information System", 0.5);
-                break;
-            case 199:
-                veryImportantAbbreviation = abbreviate("Strategic Management System", 0.5);
-                break;
-            case 200:
-                veryImportantAbbreviation = abbreviate("Business Model Innovation", 1.0);
-                break;
-            case 201:
-                veryImportantAbbreviation = abbreviate("leadership development system", 0.5);
-                break;
-        }
-
-        if (r < 202) {
-            return veryImportantAbbreviation;
+        var innerThingDict = dict.sentenceWithWeight(SENW_THING_INNER);
+        String sentence = weightedChoice(innerThingDict);
+        if(sentence != null && !sentence.isEmpty()) {
+            if ("%s".equals(sentence)) {
+                return String.format(sentence, matrixOrSO());
+            }
+            return abbreviate(sentence, 0.5);
         }
 
         return randomChoice(dict.stringList(WORD_THING_INNER));
     }
 
     private static String matrixOrSO() {
-        return weightedChoice(Map.of(
-                "organization", 2,
-                "silo", 3,
-                "matrix", 3,
-                "cube", 1,
-                "sphere", 1,
-                "pyramid", 1));
+        return weightedChoice(dict.sentenceWithWeight(SENW_ORG));
     }
 
     public static String thingAtom(boolean plural) {
         if (!plural) {
             int r = rand.nextInt(471);
-            String thing = "";
+            String thing;
             // todo: parameterized
             switch (r) {
                 case 1:
@@ -327,17 +269,6 @@ public class CbsgMain {
         return thingAtom(plural);
     }
 
-//    static Set<Character> vowels = Set.of('a', 'e', 'i', 'o', 'u');
-//    public static String addIndefiniteArticle(String word, boolean plural) {
-//        if(plural){
-//            return word;
-//        }
-//        if(vowels.contains(word.toLowerCase().charAt(0))){
-//            return "an " + word;
-//        }
-//        return "a " + word;
-//    }
-
     public static String addRandomArticle(String word, boolean plural) {
         int r = rand.nextInt(15);
         if (r <= 2) {
@@ -367,26 +298,17 @@ public class CbsgMain {
     }
 
     public static String personVerbHavingBadThingComplement(boolean plural) {
-        String inner = randomChoice(List.of(
-                "address", "identify", "avoid", "mitigate", "minimize", "overcome",
-                "tackle", "reduce", "alleviate", "filter out", "remove", "prevent"
-        ));
+        String inner = randomChoice(dict.stringList(WORD_PERSON_HAVING_BAD_THING_COMPLEMENT));
         return buildPluralVerb(inner, plural);
     }
 
     public static String personVerbHavingPersonComplement(boolean plural) {
-        String inner = randomChoice(List.of(
-                "motivate", "target", "enable", "drive", "synergize", "empower",
-                "prioritize", "incentivise", "inspire", "transfer", "promote",
-                "influence", "strengthen", "energize", "invigorate", "reenergize"
-        ));
+        String inner = randomChoice(dict.stringList(WORD_PERSON_HAVING_PERSON_COMPLEMENT));
         return buildPluralVerb(inner, plural);
     }
 
     public static String thingVerbAndDefiniteEnding(boolean plural) {
-        String inner = randomChoice(List.of(
-                "add value", "deliver maximum impact", "be on track"
-        ));
+        String inner = randomChoice(dict.stringList(WORD_THING_VERB_DEFINITE_ENDING));
         return buildPluralVerb(inner, plural);
     }
 
@@ -478,7 +400,7 @@ public class CbsgMain {
 
     public static String personVerbAndDefiniteEnding(boolean plural, boolean infinitive) {
         int r = rand.nextInt(113);
-        String inner = "";
+        String inner;
         switch (r) {
             case 1:
                 inner = ("create an environment where " +
@@ -565,26 +487,31 @@ public class CbsgMain {
     }
 
     public static String articulatedPropositions() {
+        String weightedProposition = weightedChoice(dict.sentenceWithWeight(SENW_ARTICULATED_PROPOSITION));
+        if(!"$person".equals(weightedProposition) && !"$thing".equals(weightedProposition)){
+            return String.format(weightedProposition, proposition(), proposition());
+        }
         int r = rand.nextInt(416);
-        if (r <= 270) {
-            return proposition();
-        } else if (r <= 280) {
-            return proposition() + "; this is why " + proposition();
-        } else if (r <= 290) {
-            return proposition() + "; nevertheless " + proposition();
-        } else if (r <= 300) {
-            return proposition() + ", whereas " + proposition();
-        } else if (r <= 340) {
-            return proposition() + ", while " + proposition();
-        } else if (r <= 350) {
-            return proposition() + ". In the same time, " + proposition();
-        } else if (r <= 360) {
-            return proposition() + ". As a result, " + proposition();
-        } else if (r <= 370) {
-            return proposition() + ", whilst " + proposition();
-        } else if (r <= 373) {
-            return "our gut-feeling is that " + proposition();
-        } else if (r <= 376) {
+//        if (r <= 270) {
+//            return proposition();
+//        } else if (r <= 280) {
+//            return proposition() + "; this is why " + proposition();
+//        } else if (r <= 290) {
+//            return proposition() + "; nevertheless " + proposition();
+//        } else if (r <= 300) {
+//            return proposition() + ", whereas " + proposition();
+//        } else if (r <= 340) {
+//            return proposition() + ", while " + proposition();
+//        } else if (r <= 350) {
+//            return proposition() + ". In the same time, " + proposition();
+//        } else if (r <= 360) {
+//            return proposition() + ". As a result, " + proposition();
+//        } else if (r <= 370) {
+//            return proposition() + ", whilst " + proposition();
+//        } else if (r <= 373) {
+//            return "our gut-feeling is that " + proposition();
+//        } else
+            if (r <= 376) {
             return ("the point is not merely to " +
                     personInfinitiveVerbAndEnding() +
                     ". The point is to " + personInfinitiveVerbAndEnding())
@@ -600,16 +527,16 @@ public class CbsgMain {
                     ". Our challenge is to " +
                     personInfinitiveVerbAndEnding())
                     ;
-        } else if (r <= 386) {
-            return "going forward, " + proposition();
-        } else if (r <= 389) {
-            return "actually, " + proposition();
-        } else if (r <= 392) {
-            return "in the future, " + proposition();
-        } else if (r <= 395) {
-            return "flat out, " + proposition();
-        } else if (r <= 398) {
-            return "first and foremost, " + proposition();
+//        } else if (r <= 386) {
+//            return "going forward, " + proposition();
+//        } else if (r <= 389) {
+//            return "actually, " + proposition();
+//        } else if (r <= 392) {
+//            return "in the future, " + proposition();
+//        } else if (r <= 395) {
+//            return "flat out, " + proposition();
+//        } else if (r <= 398) {
+//            return "first and foremost, " + proposition();
         } else if (r <= 402) {
             return ("the game is all about " +
                     thingAtom(false) + ", " +
@@ -623,17 +550,17 @@ public class CbsgMain {
                     thingAtom(false) + ", and " +
                     thingAtom(false))
                     ;
-        } else if (r == 403) {
-            return "in today's fast-changing world, " + proposition();
-        } else if (r == 404) {
-            return "internally and externally, " + proposition();
-        } else if (r == 405) {
-            return "our message is: " + proposition();
-        } else if (r == 406) {
-            return "in a data-first world, " + proposition();
-        } else if (r == 407) {
-            return "the future awaits"
-                    ;
+//        } else if (r == 403) {
+//            return "in today's fast-changing world, " + proposition();
+//        } else if (r == 404) {
+//            return "internally and externally, " + proposition();
+//        } else if (r == 405) {
+//            return "our message is: " + proposition();
+//        } else if (r == 406) {
+//            return "in a data-first world, " + proposition();
+//        } else if (r == 407) {
+//            return "the future awaits"
+//                    ;
         } else if (r == 408) {
             return (thingAtom(true) +
                     " not only thrive on change, they initiate it")
@@ -651,24 +578,25 @@ public class CbsgMain {
                     " - all are competing for the attention of " +
                     person(true))
                     ;
-        } else if (r == 411) {
-            return "success brings success";
-        } else if (r == 412) {
-            return ("everyone is coming to grips with the fact that " +
-                    proposition());
+//        } else if (r == 411) {
+//            return "success brings success";
+//        } else if (r == 412) {
+//            return ("everyone is coming to grips with the fact that " +
+//                    proposition());
         } else if (r == 413) {
             return (thing(true) +
                     " will be a thing of the past over the next decade" +
                     " and be fully replaced with " +
                     thing(rand.nextBoolean()));
-        } else if (r == 414) {
-            return ("as the consumer and commerce landscape continues to evolve, " +
-                    proposition());
-        } else if (r == 415) {
-            return "in an age of information, " + proposition();
-        } else if (r == 416) {
-            return "in a growing digital environment, " + proposition();
-        }
+            }
+//        } else if (r == 414) {
+//            return ("as the consumer and commerce landscape continues to evolve, " +
+//                    proposition());
+//        } else if (r == 415) {
+//            return "in an age of information, " + proposition();
+//        } else if (r == 416) {
+//            return "in a growing digital environment, " + proposition();
+//        }
         return "";
     }
 
@@ -681,10 +609,9 @@ public class CbsgMain {
         StringBuilder ret = new StringBuilder();
         int pm = rand.nextInt(10);
         int limit = (rand.nextBoolean()) ? 30 + pm : 30 - pm;
-        int until = Math.max(3, limit);
         int cnt = 0;
         // average 30 sentence +-10
-        while (until != cnt) {
+        while (limit != cnt) {
             ret.append(sentence()).append(" ");
             cnt++;
         }

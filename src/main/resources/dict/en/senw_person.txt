@@ -1,0 +1,4 @@
+int r = rand.nextInt(46);
+1,%s champion
+32,%s
+14,$boss
