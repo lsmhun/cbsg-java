@@ -52,6 +52,12 @@ public class Constant {
     public static final String SENW_BOSS_GROUPAL = "dict/en/senw_boss_groupal.txt";
     public static final String SENW_BOSS_TITLE = "dict/en/senw_boss_title.txt";
 
+    public static final String SENW_PROPOSITION = "dict/en/senw_proposition.txt";
     public static final String SENW_ARTICULATED_PROPOSITION = "dict/en/senw_articulated_proposition.txt";
-
+    public static final String SENW_EVENTUAL_POSTFIXED_ADVERB = "dict/en/senw_eventual_postfixed_adverb.txt";
+    public static final String SENW_FAUKON = "dict/en/senw_eventual_postfixed_adverb.txt";
+    public static final String SENW_PERSON_VERB_AND_DEFINITE_ENDING = "dict/en/senw_person_verb_and_definite_ending.txt";
+//    public static final String SENW_ARTICULATED_PROPOSITION_PERSON = "dict/en/senw_articulated_proposition_person.txt";
+//    public static final String SENW_ARTICULATED_PROPOSITION_THING = "dict/en/senw_articulated_proposition_thing.txt";
+//
 }

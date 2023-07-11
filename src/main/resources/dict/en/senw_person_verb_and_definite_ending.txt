@@ -1,0 +1,4 @@
+110,
+1,create an environment where $thingAtom, $thingAtom and $thingAtom can thrive
+1,advance our strategy to $personInfinitiveVerbAndEnding
+1,focus on our $thingAtomPlural to $personInfinitiveVerbAndEnding

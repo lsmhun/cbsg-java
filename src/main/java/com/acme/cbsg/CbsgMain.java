@@ -1,9 +1,12 @@
 package com.acme.cbsg;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.acme.cbsg.Constant.*;
 
@@ -11,12 +14,15 @@ public class CbsgMain {
 
     private final static CbsgResourceUtil dict = new CbsgResourceUtil();
 
+    private final static String VAR_REGEXP = "\\$[a-zA-Z0-9]+";
+    private final static Pattern VAR_PATTERN = Pattern.compile(VAR_REGEXP);
+    public static Random rand = new Random();
+
+
     public static void main(String... args) {
         // Corporate Bullshit Generator
         System.out.println(shortWorkshop());
     }
-
-    public static Random rand = new Random();
 
     public static String randomChoice(List<String> words) {
         return words.get(rand.nextInt(words.size()));
@@ -348,76 +354,26 @@ public class CbsgMain {
     }
 
     public static String faukon() {
-        int r = rand.nextInt(16);
-        if (r < 15) {
+        String weightedProposition = weightedChoice(dict.sentenceWithWeight(SENW_FAUKON));
+        if(weightedProposition == null || "".equals(weightedProposition)){
             return randomChoice(dict.stringList(WORD_FAUKON));
         }
-        return "we must activate the " + matrixOrSO() + " to";
+        return evaluateValues(weightedProposition);
     }
 
     public static String eventualPostfixedAdverb() {
-        boolean plural = rand.nextBoolean();
-        int r = rand.nextInt(255);
-        if (r <= 38) {
+        String weightedProposition = weightedChoice(dict.sentenceWithWeight(SENW_ARTICULATED_PROPOSITION));
+        if(weightedProposition == null || "".equals(weightedProposition)){
             return randomChoice(dict.stringList(WORD_ADVERB_EVENTUAL_POSTFIXED));
         }
-        switch (r) {
-            case 39:
-                return " using " + thingWithRandomArticle(plural);
-            case 40:
-                return " by leveraging " + thingWithRandomArticle(plural);
-            case 41:
-                return " taking advantage of " + thingWithRandomArticle(plural);
-            case 42:
-                return " within the " + matrixOrSO();
-            case 43:
-                return " across the " + makeEventualPlural(matrixOrSO(), true);
-            case 44:
-                return (" across and beyond the " +
-                        makeEventualPlural(matrixOrSO(), true));
-            case 45:
-                return " resulting in " + addIndefiniteArticle(growth(), false);
-            case 46:
-                return " reaped from our " + growth();
-            case 47:
-                return (" as a consequence of " +
-                        addIndefiniteArticle(growth(), false));
-            case 48:
-                return (" because " + thingWithRandomArticle(plural) + " " +
-                        buildPluralVerb("produce", plural) + " " + growth());
-            case 49:
-                return " up, down and across the " + matrixOrSO();
-            case 50:
-                return " ensuring " +
-                        addIndefiniteArticle(thing(plural), plural);
-            case 51:
-                return ", paving the way for " +
-                        addIndefiniteArticle(thing(plural), plural);
-
-        }
-        return "";
+        return evaluateValues(weightedProposition);
     }
 
     public static String personVerbAndDefiniteEnding(boolean plural, boolean infinitive) {
-        int r = rand.nextInt(113);
-        String inner;
-        switch (r) {
-            case 1:
-                inner = ("create an environment where " +
-                        thingAtom(false) + ", " +
-                        thingAtom(false) + " and " +
-                        thingAtom(false) + " can thrive");
-                break;
-            case 2:
-                inner = "advance our strategy to " + personInfinitiveVerbAndEnding();
-                break;
-            case 3:
-                inner = ("focus on our " + thingAtom(plural) + " to " +
-                        personInfinitiveVerbAndEnding());
-                break;
-            default:
-                inner = randomChoice(dict.stringList(WORD_PERSON_VERB_DEFINITE_ENDING));
-        }
+        String weightedProposition = weightedChoice(dict.sentenceWithWeight(SENW_PERSON_VERB_AND_DEFINITE_ENDING));
+        String inner=(weightedProposition == null || "".equals(weightedProposition))
+                ? randomChoice(dict.stringList(WORD_PERSON_VERB_DEFINITE_ENDING))
+                : evaluateValues(weightedProposition);
         if (infinitive) {
             return inner;
         }
@@ -425,179 +381,56 @@ public class CbsgMain {
     }
 
     public static String proposition() {
-        boolean plural = rand.nextBoolean();
-        int r = rand.nextInt(116);
-        if (r <= 5) {
-            return (faukon() + " " + personInfinitiveVerbAndEnding() +
-                    eventualPostfixedAdverb());
-        } else if (r <= 50) {
-            return ("the " + person(plural) + " " + eventualAdverb() +
-                    personVerbAndEnding(plural, false) +
-                    eventualPostfixedAdverb());
-        } else if (r <= 92) {
-            return (thingWithRandomArticle(plural) + " " + eventualAdverb() +
-                    thingVerbAndEnding(plural) + eventualPostfixedAdverb());
-        } else if (r <= 97) {
-            return (thingAtom(false) + " and " + thingAtom(false) + " " +
-                    eventualAdverb() + thingVerbAndEnding(true) +
-                    eventualPostfixedAdverb());
-        } else if (r <= 100) {
-            return (thingAtom(false) + ", " + thingAtom(false) + " and " +
-                    thingAtom(false) + " " +
-                    eventualAdverb() + thingVerbAndEnding(true) +
-                    eventualPostfixedAdverb());
-        } else if (r <= 101) {
-            return ("there can be no " + growthAtom() +
-                    " until we can achieve " +
-                    addIndefiniteArticle(growth(), false));
-        } else if (r <= 103) {
-            return thing(false) + " is all about " + thing(plural);
-        } else if (r <= 104) {
-            return "there is no alternative to " + thingAtom(plural);
-        } else if (r <= 105) {
-            return "the key to " + thingAtom(false) + " is " + thingAtom(false);
-        } else if (r <= 106) {
-            return "opting out of " + thing(plural) + " is not a choice";
-        } else if (r <= 107) {
-            return (addIndefiniteArticle(growth(), false) +
-                    " goes hand-in-hand with " +
-                    addIndefiniteArticle(growth(), false));
-        } else if (r <= 108) {
-            return ("the " + person(plural) + " will be well equipped to " +
-                    personInfinitiveVerbAndEnding());
-        } else if (r <= 109) {
-            return thingAtom(false) + " is a matter of speed of action";
-        } else if (r <= 110) {
-            return (thingAtom(false) + " won't happen without " +
-                    thingAtom(plural));
-        } else if (r <= 111) {
-            return (thingWithRandomArticle(false) +
-                    " will be best positioned to " +
-                    personInfinitiveVerbAndEnding());
-        } else if (r <= 112) {
-            return (thingAtom(false) + " in the digital age calls for " +
-                    thingAtom(plural));
-        } else if (r <= 113) {
-            return thingAtom(false) + " moves the company up the value chain";
-        }
-        //else if (r<=114) {
-        return (thingAtom(false) +
-                " requires that we all pull in the same direction");
-        //}
+        String weightedProposition = weightedChoice(dict.sentenceWithWeight(SENW_PROPOSITION));
+        return evaluateValues(weightedProposition);
     }
 
     public static String articulatedPropositions() {
         String weightedProposition = weightedChoice(dict.sentenceWithWeight(SENW_ARTICULATED_PROPOSITION));
-        if(!"$person".equals(weightedProposition) && !"$thing".equals(weightedProposition)){
-            return String.format(weightedProposition, proposition(), proposition());
+        return evaluateValues(weightedProposition);
+    }
+
+    static String evaluateValues(final String template) {
+        List<String> values = new ArrayList<>();
+        Matcher matcher = VAR_PATTERN.matcher(template);
+        while (matcher.find()){
+            // ie: it will evaluate $thingAtom to it values
+            values.add(templateFunction(matcher.group()));
         }
-        int r = rand.nextInt(416);
-//        if (r <= 270) {
-//            return proposition();
-//        } else if (r <= 280) {
-//            return proposition() + "; this is why " + proposition();
-//        } else if (r <= 290) {
-//            return proposition() + "; nevertheless " + proposition();
-//        } else if (r <= 300) {
-//            return proposition() + ", whereas " + proposition();
-//        } else if (r <= 340) {
-//            return proposition() + ", while " + proposition();
-//        } else if (r <= 350) {
-//            return proposition() + ". In the same time, " + proposition();
-//        } else if (r <= 360) {
-//            return proposition() + ". As a result, " + proposition();
-//        } else if (r <= 370) {
-//            return proposition() + ", whilst " + proposition();
-//        } else if (r <= 373) {
-//            return "our gut-feeling is that " + proposition();
-//        } else
-            if (r <= 376) {
-            return ("the point is not merely to " +
-                    personInfinitiveVerbAndEnding() +
-                    ". The point is to " + personInfinitiveVerbAndEnding())
-                    ;
-        } else if (r <= 380) {
-            return ("it's not about " + thingAtom(rand.nextBoolean()) +
-                    ". It's about " +
-                    thingWithRandomArticle(rand.nextBoolean()))
-                    ;
-        } else if (r <= 383) {
-            return ("our challenge is not to " +
-                    personInfinitiveVerbAndEnding() +
-                    ". Our challenge is to " +
-                    personInfinitiveVerbAndEnding())
-                    ;
-//        } else if (r <= 386) {
-//            return "going forward, " + proposition();
-//        } else if (r <= 389) {
-//            return "actually, " + proposition();
-//        } else if (r <= 392) {
-//            return "in the future, " + proposition();
-//        } else if (r <= 395) {
-//            return "flat out, " + proposition();
-//        } else if (r <= 398) {
-//            return "first and foremost, " + proposition();
-        } else if (r <= 402) {
-            return ("the game is all about " +
-                    thingAtom(false) + ", " +
-                    thingAtom(false) + ", " +
-                    thingAtom(false) + ", " +
-                    thingAtom(false) + ", and " +
-                    thingAtom(false) + " - not " +
-                    thingAtom(false) + ", " +
-                    thingAtom(false) + ", " +
-                    thingAtom(false) + ", " +
-                    thingAtom(false) + ", and " +
-                    thingAtom(false))
-                    ;
-//        } else if (r == 403) {
-//            return "in today's fast-changing world, " + proposition();
-//        } else if (r == 404) {
-//            return "internally and externally, " + proposition();
-//        } else if (r == 405) {
-//            return "our message is: " + proposition();
-//        } else if (r == 406) {
-//            return "in a data-first world, " + proposition();
-//        } else if (r == 407) {
-//            return "the future awaits"
-//                    ;
-        } else if (r == 408) {
-            return (thingAtom(true) +
-                    " not only thrive on change, they initiate it")
-                    ;
-        } else if (r == 409) {
-            return ("as the pace of " + thingAtom(rand.nextBoolean()) +
-                    " continues to accelerate, " + thingAtom(false) +
-                    " has become a necessity")
-                    ;
-        } else if (r == 410) {
-            return (thingAtom(false) + ", " +
-                    thingAtom(false) + ", " +
-                    thingAtom(false) + ", " +
-                    thingAtom(false) +
-                    " - all are competing for the attention of " +
-                    person(true))
-                    ;
-//        } else if (r == 411) {
-//            return "success brings success";
-//        } else if (r == 412) {
-//            return ("everyone is coming to grips with the fact that " +
-//                    proposition());
-        } else if (r == 413) {
-            return (thing(true) +
-                    " will be a thing of the past over the next decade" +
-                    " and be fully replaced with " +
-                    thing(rand.nextBoolean()));
-            }
-//        } else if (r == 414) {
-//            return ("as the consumer and commerce landscape continues to evolve, " +
-//                    proposition());
-//        } else if (r == 415) {
-//            return "in an age of information, " + proposition();
-//        } else if (r == 416) {
-//            return "in a growing digital environment, " + proposition();
-//        }
-        return "";
+        String templateReplace = template.replaceAll(VAR_REGEXP, "%s");
+        return String.format(templateReplace, values.toArray());
+    }
+
+    public static final String templateFunction(final String templateName){
+        String result = "";
+        switch (templateName){
+            case "$faukon" : result = faukon();break;
+            case "$sentence" : result = sentence();break;
+            case "$thing" : result = thing(false);break;
+            case "$thingPlural" : result = thing(true);break;
+            case "$thingRandom" : result = thing(rand.nextBoolean());break;
+            case "$thingAtom" : result = thingAtom(false);break;
+            case "$thingAtomRandom" : result = thingAtom(rand.nextBoolean());break;
+            case "$thingAtomPlural" : result = thingAtom(true);break;
+            case "$thingVerbAndEnding" : result = thingVerbAndEnding(true);break;
+            case "$thingVerbAndEndingPlural" : result = thingVerbAndEnding(true);break;
+            case "$thingWithRandomArticle" : result = thingWithRandomArticle(false);break;
+            case "$thingWithRandomArticlePlural" : result = thingWithRandomArticle(true);break;
+            case "$thingWithRandomArticleRandom" : result = thingWithRandomArticle(rand.nextBoolean());break;
+            case "$person" : result = person(false);break;
+            case "$personInfinitiveVerbAndEnding" : result = personInfinitiveVerbAndEnding();break;
+            case "$personVerbAndEnding" : result = personVerbAndEnding(false, false);break;
+            case "$eventualAdverb" : result = eventualAdverb();break;
+            case "$eventualPostfixedAdverb" : result = eventualPostfixedAdverb();break;
+            case "$growthAtom" : result = growthAtom();break;
+            case "$addIndefiniteArticleGrowth" : result = addIndefiniteArticle(growth(), false);break;
+            case "$addIndefiniteArticleGrowthPlural" : result = addIndefiniteArticle(growth(), true);break;
+            case "$addIndefiniteArticleThing" : result = addIndefiniteArticle(thing(false), false);break;
+            case "$addIndefiniteArticleThingPlural" : result = addIndefiniteArticle(thing(true), true);break;
+            case "$addIndefiniteArticleThingRandom" : boolean plur = rand.nextBoolean();result = addIndefiniteArticle(thing(plur), plur);break;
+            case "$proposition" : result = proposition();break;
+        }
+        return result;
     }
 
     public static String sentence() {
