@@ -65,21 +65,23 @@ public class CbsgMain {
             return verb;
         }
 
+        String sExtension = verb.substring(0, last + 1) + "s" + verb.substring(last + 1);
+        String esExtension = verb.substring(0, last + 1) + "es" + verb.substring(last + 1);
         if (verb.charAt(last) == 's' || verb.charAt(last) == 'o' || verb.charAt(last) == 'z') {
-            return verb.substring(0, last + 1) + "es" + verb.substring(last + 1);
+            return esExtension;
         } else if (verb.charAt(last) == 'h') {
             if (verb.charAt(last - 1) == 'c' || verb.charAt(last - 1) == 's') {
-                return verb.substring(0, last + 1) + "es" + verb.substring(last + 1);
+                return esExtension;
             }
-            return verb.substring(0, last + 1) + "s" + verb.substring(last + 1);
+            return sExtension;
         } else if (verb.charAt(last) == 'y') {
             if (verb.charAt(last - 1) == 'a' || verb.charAt(last - 1) == 'e' || verb.charAt(last - 1) == 'i' || verb.charAt(last - 1) == 'o' || verb.charAt(last - 1) == 'u') {
-                return verb.substring(0, last + 1) + "s" + verb.substring(last + 1);
+                return sExtension;
             }
             return verb.substring(0, last) + "ies" + verb.substring(last + 1);
         }
 
-        return verb.substring(0, last + 1) + "s" + verb.substring(last + 1);
+        return sExtension;
     }
 
     public static String addIndefiniteArticle(String word, boolean plural) {
@@ -147,8 +149,7 @@ public class CbsgMain {
                 officerOrCatalyst, 0.6);
     }
 
-    public static String person(boolean plural) {
-        if (!plural) {
+    public static String person() {
             String personTemplate = weightedChoice(dict.sentenceWithWeight(SENW_PERSON));
             if("$boss".equals(personTemplate)){
                 // no question
@@ -156,12 +157,15 @@ public class CbsgMain {
             }
             String person = "";
             try {
-                person = String.format(personTemplate, thingAtom(rand.nextBoolean()));
+                person = String.format(personTemplate,
+                        rand.nextBoolean()? thingAtom(): thingAtomPlural());
             }catch (Exception ex){
                 // nobody cares, goto default
             }
             return ("".equals(person)) ? randomChoice(dict.stringList(WORD_PERSON_NOT_PLURAL)) : person;
-        }
+    }
+
+    public static String personPlural() {
         return randomChoice(dict.stringList(WORD_PERSON_PLURAL));
     }
 
@@ -180,57 +184,58 @@ public class CbsgMain {
     }
 
     public static String thingInner() {
-        var innerThingDict = dict.sentenceWithWeight(SENW_THING_INNER);
-        String sentence = weightedChoice(innerThingDict);
-        if(sentence != null && !sentence.isEmpty()) {
-            if ("%s".equals(sentence)) {
-                return String.format(sentence, matrixOrSO());
-            }
-            return abbreviate(sentence, 0.5);
+        String weightedThingInner = weightedChoice(dict.sentenceWithWeight(SENW_THING_INNER));
+        if(weightedThingInner == null || "".equals(weightedThingInner)){
+            return randomChoice(dict.stringList(WORD_THING_INNER));
         }
-
-        return randomChoice(dict.stringList(WORD_THING_INNER));
+        String res = evaluateValues(weightedThingInner);
+        Map<String, Integer> senwOrg = dict.sentenceWithWeight(SENW_ORG);
+        for(String org: senwOrg.keySet()){
+            if(res.contains(org)){
+                return res;
+            }
+        }
+        return abbreviate(res, 0.5);
     }
 
     private static String matrixOrSO() {
         return weightedChoice(dict.sentenceWithWeight(SENW_ORG));
     }
 
-    public static String thingAtom(boolean plural) {
-        if (!plural) {
-            int r = rand.nextInt(471);
-            String thing;
-            // todo: parameterized
-            switch (r) {
-                case 1:
-                    thing = timelessEvent();
-                    break;
-                case 2:
-                    thing = abbreviate("Quality Research", 0.5);
-                    break;
-                case 3:
-                    thing = abbreviate("Customer Experience", 0.5);
-                    break;
-                case 4:
-                    thing = abbreviate("Customer Experience Management", 0.5);
-                    break;
-                default:
-                    thing = randomChoice(dict.stringList(WORD_THING_ATOM));
-            }
-            if (r < 201) {
-                return thing;
-            } else {
-                return thingInner();
-            }
-        } else {
-            int r = rand.nextInt(310);
-            if (r <= 40) {
-                return randomChoice(dict.stringList(WORD_THING_ATOM_PLURAL));
-            } else {
-                return makeEventualPlural(thingInner(), true);
-            }
+    public static String thingAtom() {
+        int r = rand.nextInt(471);
+        String thing;
+        // todo: parameterized
+        switch (r) {
+            case 1:
+                thing = timelessEvent();
+                break;
+            case 2:
+                thing = abbreviate("Quality Research", 0.5);
+                break;
+            case 3:
+                thing = abbreviate("Customer Experience", 0.5);
+                break;
+            case 4:
+                thing = abbreviate("Customer Experience Management", 0.5);
+                break;
+            default:
+                thing = randomChoice(dict.stringList(WORD_THING_ATOM));
         }
+        if (r < 201) {
+            return thing;
+        } else {
+            return thingInner();
+        }
+    }
 
+    public static String thingAtomPlural() {
+        int r = rand.nextInt(310);
+        if (r <= 40) {
+            return randomChoice(dict.stringList(WORD_THING_ATOM_PLURAL));
+        } else {
+            return makeEventualPlural(thingInner(), true);
+        }
     }
 
 
@@ -244,35 +249,61 @@ public class CbsgMain {
 
     public static String eventualAdverb() {
         if (rand.nextInt(4) == 1) {
-            return randomChoice(dict.stringList(WORD_ADVERB_EVENTUAL)) + " ";
+            return randomChoice(dict.stringList(WORD_ADVERB_EVENTUAL));
         }
         return "";
     }
 
-    public static String thing(boolean plural) {
+    public static String thing() {
         int r = rand.nextInt(160);
         if (r < 10) {
             return (thingAdjective() + ", " + thingAdjective() + " " +
-                    thingAtom(plural));
+                    thingAtom());
         } else if (r < 15) {
             return (thingAdjective() + " " +
-                    thingAtom(plural));
+                    thingAtom());
         } else if (r < 80) {
             return (thingAdjective() + " and " + thingAdjective() + " " +
-                    thingAtom(plural));
+                    thingAtom());
         } else if (r < 82) {
             return (thingAdjective() + " and/or " + thingAdjective() + " " +
-                    thingAtom(plural));
+                    thingAtom());
         } else if (r < 84) {
             return growth();
         } else if (r < 90) {
             return (thingAdjective() + ", " + thingAdjective() + " and " +
-                    thingAdjective() + " " + thingAtom(plural));
+                    thingAdjective() + " " + thingAtom());
         } else if (r < 94) {
             return (thingAdjective() + " " +
-                    thingAtom(plural));
+                    thingAtom());
         }
-        return thingAtom(plural);
+        return thingAtom();
+    }
+
+    public static String thingPlural() {
+        int r = rand.nextInt(160);
+        if (r < 10) {
+            return (thingAdjective() + ", " + thingAdjective() + " " +
+                    thingAtomPlural());
+        } else if (r < 15) {
+            return (thingAdjective() + " " +
+                    thingAtomPlural());
+        } else if (r < 80) {
+            return (thingAdjective() + " and " + thingAdjective() + " " +
+                    thingAtomPlural());
+        } else if (r < 82) {
+            return (thingAdjective() + " and/or " + thingAdjective() + " " +
+                    thingAtomPlural());
+        } else if (r < 84) {
+            return growth();
+        } else if (r < 90) {
+            return (thingAdjective() + ", " + thingAdjective() + " and " +
+                    thingAdjective() + " " + thingAtomPlural());
+        } else if (r < 94) {
+            return (thingAdjective() + " " +
+                    thingAtomPlural());
+        }
+        return thingAtomPlural();
     }
 
     public static String addRandomArticle(String word, boolean plural) {
@@ -285,11 +316,15 @@ public class CbsgMain {
         return addIndefiniteArticle(word, plural);
     }
 
-    public static String thingWithRandomArticle(boolean plural) {
-        if (!plural && rand.nextInt(100) == 1) {
-            return "the 'why' behind " + thing(rand.nextBoolean());
-        }
-        return addRandomArticle(thing(plural), plural);
+    public static String thingWithRandomArticle(){
+//        if (!plural && rand.nextInt(100) == 1) {
+//            return "the 'why' behind " + thing(rand.nextBoolean());
+//        }
+        return addRandomArticle(thing(), false);
+    }
+
+    public static String thingWithRandomArticlePlural() {
+        return addRandomArticle(thingPlural(), true);
     }
 
     public static String innerPersonVerbHavingThingComplement() {
@@ -323,17 +358,30 @@ public class CbsgMain {
         return buildPluralVerb(inner, plural);
     }
 
-    public static String thingVerbAndEnding(boolean plural) {
+    public static String thingVerbAndEnding() {
         boolean compl_sp = rand.nextBoolean();
         int r = rand.nextInt(103);
         if (r < 55) {
-            return (thingVerbHavingThingComplement(plural) + " " +
-                    thingWithRandomArticle(compl_sp));
+            return thingVerbHavingThingComplement(false) + " " + thingWithRandomArticle();
+                    //thingWithRandomArticle(compl_sp));
         } else if (r < 100) {
-            return (personVerbHavingPersonComplement(plural) + " the " +
-                    person(compl_sp));
+            return personVerbHavingPersonComplement(false) + " the " +
+                    (compl_sp? person() : personPlural());
         }
-        return thingVerbAndDefiniteEnding(plural);
+        return thingVerbAndDefiniteEnding(false);
+    }
+
+    public static String thingVerbAndEndingPlural() {
+        boolean compl_sp = rand.nextBoolean();
+        int r = rand.nextInt(103);
+        if (r < 55) {
+            return thingVerbHavingThingComplement(true) + " " + thingWithRandomArticlePlural();
+                    //thingWithRandomArticle(compl_sp));
+        } else if (r < 100) {
+            return personVerbHavingPersonComplement(true) + " the " +
+                    ( compl_sp? person() : personPlural());
+        }
+        return thingVerbAndDefiniteEnding(true);
     }
 
     public static String personVerbAndEnding(boolean plural, boolean infinitive) {
@@ -345,8 +393,8 @@ public class CbsgMain {
             return (personVerbHavingBadThingComplement(plural) + " " +
                     addRandomArticle(badThings(), plural));
         }
-        return (personVerbHavingThingComplement(plural, infinitive) + " " +
-                thingWithRandomArticle(compl_sp));
+        return personVerbHavingThingComplement(plural, infinitive) + " " +
+                (compl_sp? thingWithRandomArticle() : thingWithRandomArticlePlural() );
     }
 
     public static String personInfinitiveVerbAndEnding() {
@@ -362,7 +410,7 @@ public class CbsgMain {
     }
 
     public static String eventualPostfixedAdverb() {
-        String weightedProposition = weightedChoice(dict.sentenceWithWeight(SENW_ARTICULATED_PROPOSITION));
+        String weightedProposition = weightedChoice(dict.sentenceWithWeight(SENW_EVENTUAL_POSTFIXED_ADVERB));
         if(weightedProposition == null || "".equals(weightedProposition)){
             return randomChoice(dict.stringList(WORD_ADVERB_EVENTUAL_POSTFIXED));
         }
@@ -401,23 +449,25 @@ public class CbsgMain {
         return String.format(templateReplace, values.toArray());
     }
 
-    public static final String templateFunction(final String templateName){
+    public static String templateFunction(final String templateName){
         String result = "";
         switch (templateName){
             case "$faukon" : result = faukon();break;
             case "$sentence" : result = sentence();break;
-            case "$thing" : result = thing(false);break;
-            case "$thingPlural" : result = thing(true);break;
-            case "$thingRandom" : result = thing(rand.nextBoolean());break;
-            case "$thingAtom" : result = thingAtom(false);break;
-            case "$thingAtomRandom" : result = thingAtom(rand.nextBoolean());break;
-            case "$thingAtomPlural" : result = thingAtom(true);break;
-            case "$thingVerbAndEnding" : result = thingVerbAndEnding(true);break;
-            case "$thingVerbAndEndingPlural" : result = thingVerbAndEnding(true);break;
-            case "$thingWithRandomArticle" : result = thingWithRandomArticle(false);break;
-            case "$thingWithRandomArticlePlural" : result = thingWithRandomArticle(true);break;
-            case "$thingWithRandomArticleRandom" : result = thingWithRandomArticle(rand.nextBoolean());break;
-            case "$person" : result = person(false);break;
+            case "$thing" : result = thing();break;
+            case "$thingPlural" : result = thingPlural();break;
+            case "$thingRandom" : result = rand.nextBoolean() ? thing() : thingPlural();break;
+            case "$thingAtom" : result = thingAtom();break;
+            case "$thingAtomRandom" : result = rand.nextBoolean() ? thingAtom() : thingAtomPlural();break;
+            case "$thingAtomPlural" : result = thingAtomPlural();break;
+            case "$thingVerbAndEnding" : result = thingVerbAndEnding();break;
+            case "$thingVerbAndEndingPlural" : result = thingVerbAndEndingPlural();break;
+            case "$thingWithRandomArticle" : result = thingWithRandomArticle();break;
+            case "$thingWithRandomArticlePlural" : result = thingWithRandomArticlePlural();break;
+            case "$thingWithRandomArticleRandom" : result = rand.nextBoolean() ? thingWithRandomArticle() : thingWithRandomArticlePlural();break;
+            case "$person" : result = person();break;
+            case "$personPlural" : result = personPlural();break;
+            case "$personRandom" : result = rand.nextBoolean() ? person() : personPlural();break;
             case "$personInfinitiveVerbAndEnding" : result = personInfinitiveVerbAndEnding();break;
             case "$personVerbAndEnding" : result = personVerbAndEnding(false, false);break;
             case "$eventualAdverb" : result = eventualAdverb();break;
@@ -425,10 +475,13 @@ public class CbsgMain {
             case "$growthAtom" : result = growthAtom();break;
             case "$addIndefiniteArticleGrowth" : result = addIndefiniteArticle(growth(), false);break;
             case "$addIndefiniteArticleGrowthPlural" : result = addIndefiniteArticle(growth(), true);break;
-            case "$addIndefiniteArticleThing" : result = addIndefiniteArticle(thing(false), false);break;
-            case "$addIndefiniteArticleThingPlural" : result = addIndefiniteArticle(thing(true), true);break;
-            case "$addIndefiniteArticleThingRandom" : boolean plur = rand.nextBoolean();result = addIndefiniteArticle(thing(plur), plur);break;
+            case "$addIndefiniteArticleThing" : result = addIndefiniteArticle(thing(), false);break;
+            case "$addIndefiniteArticleThingPlural" : result = addIndefiniteArticle(thingPlural(), true);break;
+            case "$addIndefiniteArticleThingRandom" : result = rand.nextBoolean() ? addIndefiniteArticle(thing(), false) : addIndefiniteArticle(thingPlural(), true);break;
             case "$proposition" : result = proposition();break;
+            case "$matrixOrSOPlural" : result = makeEventualPlural(matrixOrSO(), true);break;
+            case "$matrixOrSO" : result = matrixOrSO();break;
+
         }
         return result;
     }
@@ -465,7 +518,7 @@ public class CbsgMain {
     }
 
     public static String shortWorkshop() {
-        return sentenceGuaranteedAmount(5);
+        return sentenceGuaranteedAmount(5).trim();
     }
 
     public static String financialReport() {

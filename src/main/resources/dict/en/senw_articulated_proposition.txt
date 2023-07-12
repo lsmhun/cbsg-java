@@ -32,7 +32,7 @@
 1,there is no alternative to $thingAtomRandom
 1,the key to $thingAtom is $thingAtom
 1,opting out of $thing is not a choice
-1,$addIndefiniteArticle goes hand-in-hand with $addIndefiniteArticle
+1,$addIndefiniteArticleGrowth goes hand-in-hand with $addIndefiniteArticleGrowth
 1,the $person will be well equipped to $personInfinitiveVerbAndEnding
 1,$thingAtom is a matter of speed of action
 1,$thingAtom won't happen without $thingAtomRandom ,

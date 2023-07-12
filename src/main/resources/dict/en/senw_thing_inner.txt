@@ -1,5 +1,5 @@
 68,
-194,%s
+194,$matrixOrSO
 1,Management Information System
 1,Management Information System
 1,Quality Management System

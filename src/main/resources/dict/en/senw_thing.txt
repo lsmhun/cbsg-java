@@ -1,0 +1,8 @@
+66,$thingAtom
+10,$thingAdjective, $thingAdjective $thingAtomPlural
+5,$thingAdjective $thingAtomPlural
+65,$thingAdjective and $thingAdjective $thingAtomPlural
+2,$thingAdjective and/or $thingAdjective $thingAtomPlural
+2,$growth
+6,$thingAdjective, $thingAdjective and $thingAdjective $thingAtomPlural
+4,$thingAdjective $thingAtomPlural
