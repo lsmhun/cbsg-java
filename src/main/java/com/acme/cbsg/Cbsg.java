@@ -7,5 +7,5 @@ public interface Cbsg {
 
     String financialReport();
 
-    String sentence(int length);
+    String sentenceGuaranteedAmount(int length);
 }

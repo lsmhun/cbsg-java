@@ -1,19 +1,26 @@
 package com.acme.cbsg;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class CbsgResourceUtil {
 
+    public static final String DEFAULT_DICTIONARY_PROPERIES = "dict/en/dictionary.properties";
+
     private final Map<String, List<String>> listCache = new ConcurrentHashMap<>();
     private final Map<String, Map<String, Integer>> sentenceCache = new ConcurrentHashMap<>();
 
     public List<String> stringList(final String resourceFileName){
+        if(resourceFileName == null || "".equals(resourceFileName)){
+            return new ArrayList<>();
+        }
         return listCache.computeIfAbsent(resourceFileName, s -> {
             Scanner scanner = getScannerForResourceFile(s);
             List<String> res = new ArrayList<>();
@@ -25,6 +32,9 @@ public class CbsgResourceUtil {
     }
 
     public Map<String, Integer> sentenceWithWeight(final String resourceFileName){
+        if(resourceFileName == null || "".equals(resourceFileName)){
+            return new HashMap<>();
+        }
         return sentenceCache.computeIfAbsent(resourceFileName, s -> {
             Scanner scanner = getScannerForResourceFile(s);
             Map<String, Integer> res = new HashMap<>();
@@ -56,5 +66,21 @@ public class CbsgResourceUtil {
          scanner = new Scanner(is);
         }
         return scanner;
+    }
+
+    public Properties readProperties(String resourcePropertiesLocation){
+        InputStream inputStream;
+        Properties properties = new Properties();
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        inputStream = classloader.getResourceAsStream(resourcePropertiesLocation);
+        if(inputStream == null){
+            inputStream = classloader.getResourceAsStream(DEFAULT_DICTIONARY_PROPERIES);
+        }
+        try {
+            properties.load(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return properties;
     }
 }

@@ -1,6 +1,5 @@
 package com.acme.cbsg;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -10,6 +9,8 @@ import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -22,43 +23,32 @@ import java.util.stream.Stream;
 import static com.acme.cbsg.CbsgCore.VAR_PATTERN;
 import static org.junit.jupiter.api.Assertions.*;
 
-class CbsgResourceUtilTest {
+class CbsgCoreTest {
 
-    private final CbsgResourceUtil cbsgResourceUtil = new CbsgResourceUtil();
+    private final static CbsgResourceUtil cbsgResourceUtil = new CbsgResourceUtil();
 
     @Test
-    void getGrowthSuperlative() {
-        Properties properties = cbsgResourceUtil.readProperties("DEFAULT");
-        List<String> superlatives = cbsgResourceUtil.stringList(properties.getProperty(CbsgDictionaryKey.WORD_GROWTH));
-        assertFalse(superlatives.isEmpty());
+    void shortWorkshopWithAaaaaaa() {
+        Properties properties = cbsgResourceUtil.readProperties("dict/test/test_dictionary.properties");
+        Cbsg cbsgTest = new CbsgCore(properties);
+        String result = cbsgTest.shortWorkshop();
+        assertFalse(result.isEmpty());
+        String[] splitted = result.split(" ");
+        assertNotEquals(0, splitted.length);
+        Set<String> mySet = new HashSet<>(Arrays.asList(splitted));
+        assertEquals(1, mySet.size());
     }
 
     @Test
-    void dataNotFound() {
-        List<String> words = cbsgResourceUtil.stringList("shalala");
-        assertTrue(words.isEmpty());
+    void shortWorkshopWithEmptyDict() {
+        Properties properties = new Properties();
+        Cbsg cbsgTest = new CbsgCore(properties);
+        String result = cbsgTest.shortWorkshop();
+        assertTrue(result.trim().isEmpty());
     }
 
     @Test
-    void senwOrg() {
-        Properties properties = cbsgResourceUtil.readProperties("DEFAULT");
-        Map<String, Integer> sentenceWithWeight = cbsgResourceUtil.sentenceWithWeight(properties.getProperty(CbsgDictionaryKey.SENW_ORG));
-        assertFalse(sentenceWithWeight.isEmpty());
-        assertTrue(sentenceWithWeight.containsKey("organization"));
-        assertEquals(2, sentenceWithWeight.get("organization"));
-    }
-
-    @Test
-    void senwThingInner() {
-        Properties properties = cbsgResourceUtil.readProperties("DEFAULT");
-        Map<String, Integer> sentenceWithWeight = cbsgResourceUtil.sentenceWithWeight(properties.getProperty(CbsgDictionaryKey.SENW_THING_INNER));
-        assertFalse(sentenceWithWeight.isEmpty());
-        assertTrue(sentenceWithWeight.containsKey("Quality Management System"));
-        assertEquals(1, sentenceWithWeight.get("Quality Management System"));
-    }
-
-    @Test
-    void collectAllVarTemplates() throws IOException, URISyntaxException {
+    void callAllTemplatesChaosTesting() throws IOException, URISyntaxException {
         Set<String> variables = new HashSet<>();
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 
@@ -86,8 +76,15 @@ class CbsgResourceUtilTest {
                         }
                     }
             );
-            assertFalse(variables.isEmpty());
-            variables.stream().sorted().forEach(System.out::println);
         }
+        assertFalse(variables.isEmpty());
+        Map<String, String> templateResult = new HashMap<>();
+        CbsgCore cbsg = new CbsgCore();
+        for (int i = 0; i < 10; i++) {
+            for (String templateVar : variables) {
+                templateResult.put(templateVar, cbsg.templateFunction(templateVar));
+            }
+        }
+        assertEquals(variables.size(), templateResult.size());
     }
 }
