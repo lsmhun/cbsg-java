@@ -1,7 +1,6 @@
 package com.acme.cbsg;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -14,78 +13,59 @@ public class CbsgMain {
 
     private final static CbsgResourceUtil dict = new CbsgResourceUtil();
 
-    private final static String VAR_REGEXP = "\\$[a-zA-Z0-9]+";
-    private final static Pattern VAR_PATTERN = Pattern.compile(VAR_REGEXP);
+    final static String VAR_REGEXP = "\\$[a-zA-Z0-9]+";
+    final static Pattern VAR_PATTERN = Pattern.compile(VAR_REGEXP);
     public static Random rand = new Random();
-
 
     public static void main(String... args) {
         // Corporate Bullshit Generator
-        System.out.println(shortWorkshop());
+        System.out.println(workshop());
     }
 
-    public static String randomChoice(List<String> words) {
-        return words.get(rand.nextInt(words.size()));
+    ///////////////// PUBLIC        ///////////////////
+
+    public static String sentenceGuaranteedAmount(int count) {
+        StringBuilder ret = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            ret.append(sentence()).append(" ");
+        }
+        return cleanup(ret.toString());
     }
 
-    public static String makeEventualPlural(String word, boolean plural) {
-        if (word.length() < 3 || !plural) {
-            return word;
-        }
-
-        try {
-            int abbr = word.indexOf(" (");
-            return makeEventualPlural(word.substring(0, abbr), plural) + word.substring(abbr);
-        } catch (StringIndexOutOfBoundsException e) {
-            // Do nothing
-        }
-
-        if (word.equals("matrix")) {
-            return "matrices";
-        } else if (word.equals("analysis")) {
-            return "analyses";
-        } else if (word.endsWith("gh")) {
-            return word + "s";
-        } else if (word.endsWith("s") || word.endsWith("x") || word.endsWith("z") || word.endsWith("h")) {
-            return word + "es";
-        } else if (word.endsWith("y") && !word.toLowerCase().endsWith("ay") && !word.toLowerCase().endsWith("ey") && !word.toLowerCase().endsWith("iy") && !word.toLowerCase().endsWith("oy") && !word.toLowerCase().endsWith("uy")) {
-            return word.substring(0, word.length() - 1) + "ies";
-        }
-
-        return word + "s";
+    public static String workshop() {
+        return sentenceGuaranteedAmount(500);
     }
 
-    public static String buildPluralVerb(String verb, boolean plural) {
-        int last = verb.trim().length() - 1;
-        if (last < 0) {
-            return verb;
-        }
+    public static String shortWorkshop() {
+        return sentenceGuaranteedAmount(5);
+    }
 
-        if (plural) {
-            return verb;
-        }
+    public static String financialReport() {
+        return sentences();
+    }
 
-        String sExtension = verb.substring(0, last + 1) + "s" + verb.substring(last + 1);
-        String esExtension = verb.substring(0, last + 1) + "es" + verb.substring(last + 1);
-        if (verb.charAt(last) == 's' || verb.charAt(last) == 'o' || verb.charAt(last) == 'z') {
-            return esExtension;
-        } else if (verb.charAt(last) == 'h') {
-            if (verb.charAt(last - 1) == 'c' || verb.charAt(last - 1) == 's') {
-                return esExtension;
-            }
-            return sExtension;
-        } else if (verb.charAt(last) == 'y') {
-            if (verb.charAt(last - 1) == 'a' || verb.charAt(last - 1) == 'e' || verb.charAt(last - 1) == 'i' || verb.charAt(last - 1) == 'o' || verb.charAt(last - 1) == 'u') {
-                return sExtension;
-            }
-            return verb.substring(0, last) + "ies" + verb.substring(last + 1);
-        }
+    ///////////////// TEXT ELEMENTS ///////////////////
 
-        return sExtension;
+    public static String sentence() {
+        String propositions = articulatedPropositions();
+        return propositions.substring(0, 1).toUpperCase() + propositions.substring(1) + ".";
+    }
+
+    public static String sentences() {
+        StringBuilder ret = new StringBuilder();
+        int pm = rand.nextInt(10);
+        int limit = (rand.nextBoolean()) ? 30 + pm : 30 - pm;
+        int cnt = 0;
+        // average 30 sentence +-10
+        while (limit != cnt) {
+            ret.append(sentence()).append(" ");
+            cnt++;
+        }
+        return cleanup(ret.toString());
     }
 
     public static String addIndefiniteArticle(String word, boolean plural) {
-        if (plural) {
+        if (plural || word.length() == 0) {
             return word;
         }
 
@@ -105,28 +85,6 @@ public class CbsgMain {
         }
 
         return abbreviation.toString();
-    }
-
-    public static String abbreviate(String s, double probability) {
-        if (Math.random() < probability) {
-            return s + " (" + sillyAbbreviationGeneratorSAS(s) + ")";
-        }
-        return s;
-    }
-
-
-    public static String weightedChoice(Map<String, Integer> choices) {
-        int totalWeight = choices.values().stream().mapToInt(Integer::intValue).sum();
-
-        int randomWeight = rand.nextInt(totalWeight);
-        for (Map.Entry<String, Integer> entry : choices.entrySet()) {
-            randomWeight -= entry.getValue();
-            if (randomWeight < 0) {
-                return entry.getKey();
-            }
-        }
-
-        return "";
     }
 
     public static String boss() {
@@ -150,19 +108,11 @@ public class CbsgMain {
     }
 
     public static String person() {
-            String personTemplate = weightedChoice(dict.sentenceWithWeight(SENW_PERSON));
-            if("$boss".equals(personTemplate)){
-                // no question
-                return boss();
-            }
-            String person = "";
-            try {
-                person = String.format(personTemplate,
-                        rand.nextBoolean()? thingAtom(): thingAtomPlural());
-            }catch (Exception ex){
-                // nobody cares, goto default
-            }
-            return ("".equals(person)) ? randomChoice(dict.stringList(WORD_PERSON_NOT_PLURAL)) : person;
+        String personTemplate = weightedChoice(dict.sentenceWithWeight(SENW_PERSON));
+        if(personTemplate == null || "".equals(personTemplate)){
+            return randomChoice(dict.stringList(WORD_PERSON));
+        }
+        return evaluateValues(personTemplate);
     }
 
     public static String personPlural() {
@@ -203,39 +153,22 @@ public class CbsgMain {
     }
 
     public static String thingAtom() {
-        int r = rand.nextInt(471);
-        String thing;
-        // todo: parameterized
-        switch (r) {
-            case 1:
-                thing = timelessEvent();
-                break;
-            case 2:
-                thing = abbreviate("Quality Research", 0.5);
-                break;
-            case 3:
-                thing = abbreviate("Customer Experience", 0.5);
-                break;
-            case 4:
-                thing = abbreviate("Customer Experience Management", 0.5);
-                break;
-            default:
-                thing = randomChoice(dict.stringList(WORD_THING_ATOM));
+        String weightedThingAtom = weightedChoice(dict.sentenceWithWeight(SENW_THING_ATOM));
+        if(weightedThingAtom == null || "".equals(weightedThingAtom)){
+            return randomChoice(dict.stringList(WORD_THING_ATOM));
         }
-        if (r < 201) {
-            return thing;
-        } else {
-            return thingInner();
+        if(weightedThingAtom.contains("$")){
+            return evaluateValues(weightedThingAtom);
         }
+        return abbreviate(weightedThingAtom, 0.5);
     }
 
     public static String thingAtomPlural() {
-        int r = rand.nextInt(310);
-        if (r <= 40) {
+        String weightedThingAtom = weightedChoice(dict.sentenceWithWeight(SENW_THING_ATOM_PLURAL));
+        if(weightedThingAtom == null || "".equals(weightedThingAtom)){
             return randomChoice(dict.stringList(WORD_THING_ATOM_PLURAL));
-        } else {
-            return makeEventualPlural(thingInner(), true);
         }
+        return makeEventualPlural(evaluateValues(weightedThingAtom), true);
     }
 
 
@@ -255,55 +188,13 @@ public class CbsgMain {
     }
 
     public static String thing() {
-        int r = rand.nextInt(160);
-        if (r < 10) {
-            return (thingAdjective() + ", " + thingAdjective() + " " +
-                    thingAtom());
-        } else if (r < 15) {
-            return (thingAdjective() + " " +
-                    thingAtom());
-        } else if (r < 80) {
-            return (thingAdjective() + " and " + thingAdjective() + " " +
-                    thingAtom());
-        } else if (r < 82) {
-            return (thingAdjective() + " and/or " + thingAdjective() + " " +
-                    thingAtom());
-        } else if (r < 84) {
-            return growth();
-        } else if (r < 90) {
-            return (thingAdjective() + ", " + thingAdjective() + " and " +
-                    thingAdjective() + " " + thingAtom());
-        } else if (r < 94) {
-            return (thingAdjective() + " " +
-                    thingAtom());
-        }
-        return thingAtom();
+        String weightedThing = weightedChoice(dict.sentenceWithWeight(SENW_THING));
+        return evaluateValues(weightedThing);
     }
 
     public static String thingPlural() {
-        int r = rand.nextInt(160);
-        if (r < 10) {
-            return (thingAdjective() + ", " + thingAdjective() + " " +
-                    thingAtomPlural());
-        } else if (r < 15) {
-            return (thingAdjective() + " " +
-                    thingAtomPlural());
-        } else if (r < 80) {
-            return (thingAdjective() + " and " + thingAdjective() + " " +
-                    thingAtomPlural());
-        } else if (r < 82) {
-            return (thingAdjective() + " and/or " + thingAdjective() + " " +
-                    thingAtomPlural());
-        } else if (r < 84) {
-            return growth();
-        } else if (r < 90) {
-            return (thingAdjective() + ", " + thingAdjective() + " and " +
-                    thingAdjective() + " " + thingAtomPlural());
-        } else if (r < 94) {
-            return (thingAdjective() + " " +
-                    thingAtomPlural());
-        }
-        return thingAtomPlural();
+        String weightedThing = weightedChoice(dict.sentenceWithWeight(SENW_THING_PLURAL));
+        return evaluateValues(weightedThing);
     }
 
     public static String addRandomArticle(String word, boolean plural) {
@@ -317,9 +208,9 @@ public class CbsgMain {
     }
 
     public static String thingWithRandomArticle(){
-//        if (!plural && rand.nextInt(100) == 1) {
-//            return "the 'why' behind " + thing(rand.nextBoolean());
-//        }
+        if (rand.nextInt(100) == 1) {
+            return "the 'why' behind " + thing();
+        }
         return addRandomArticle(thing(), false);
     }
 
@@ -457,6 +348,8 @@ public class CbsgMain {
             case "$thing" : result = thing();break;
             case "$thingPlural" : result = thingPlural();break;
             case "$thingRandom" : result = rand.nextBoolean() ? thing() : thingPlural();break;
+            case "$thingInner" : result = thingInner();break;
+            case "$thingAdjective" : result = thingAdjective();break;
             case "$thingAtom" : result = thingAtom();break;
             case "$thingAtomRandom" : result = rand.nextBoolean() ? thingAtom() : thingAtomPlural();break;
             case "$thingAtomPlural" : result = thingAtomPlural();break;
@@ -470,6 +363,7 @@ public class CbsgMain {
             case "$personRandom" : result = rand.nextBoolean() ? person() : personPlural();break;
             case "$personInfinitiveVerbAndEnding" : result = personInfinitiveVerbAndEnding();break;
             case "$personVerbAndEnding" : result = personVerbAndEnding(false, false);break;
+            case "$boss" : result = boss();break;
             case "$eventualAdverb" : result = eventualAdverb();break;
             case "$eventualPostfixedAdverb" : result = eventualPostfixedAdverb();break;
             case "$growthAtom" : result = growthAtom();break;
@@ -481,48 +375,100 @@ public class CbsgMain {
             case "$proposition" : result = proposition();break;
             case "$matrixOrSOPlural" : result = makeEventualPlural(matrixOrSO(), true);break;
             case "$matrixOrSO" : result = matrixOrSO();break;
+            case "$timelessEvent": result = timelessEvent();break;
 
         }
         return result;
     }
 
-    public static String sentence() {
-        String propositions = articulatedPropositions();
-        return propositions.substring(0, 1).toUpperCase() + propositions.substring(1) + ".";
+    ///////////////// UTILITIES     ///////////////////
+    public static String randomChoice(List<String> words) {
+        return words.get(rand.nextInt(words.size()));
     }
 
-    public static String sentences() {
-        StringBuilder ret = new StringBuilder();
-        int pm = rand.nextInt(10);
-        int limit = (rand.nextBoolean()) ? 30 + pm : 30 - pm;
-        int cnt = 0;
-        // average 30 sentence +-10
-        while (limit != cnt) {
-            ret.append(sentence()).append(" ");
-            cnt++;
+    public static String makeEventualPlural(String word, boolean plural) {
+        if (word.length() < 3 || !plural) {
+            return word;
         }
-        return ret.toString();
-    }
 
-
-    public static String sentenceGuaranteedAmount(int count) {
-        StringBuilder ret = new StringBuilder();
-        for (int i = 0; i < count; i++) {
-            ret.append(sentence()).append(" ");
+        try {
+            int abbr = word.indexOf(" (");
+            return makeEventualPlural(word.substring(0, abbr), plural) + word.substring(abbr);
+        } catch (StringIndexOutOfBoundsException e) {
+            // Do nothing
         }
-        return ret.toString();
+
+        if (word.equals("matrix")) {
+            return "matrices";
+        } else if (word.equals("analysis")) {
+            return "analyses";
+        } else if (word.endsWith("gh")) {
+            return word + "s";
+        } else if (word.endsWith("s") || word.endsWith("x") || word.endsWith("z") || word.endsWith("h")) {
+            return word + "es";
+        } else if (word.endsWith("y") && !word.toLowerCase().endsWith("ay") && !word.toLowerCase().endsWith("ey") && !word.toLowerCase().endsWith("iy") && !word.toLowerCase().endsWith("oy") && !word.toLowerCase().endsWith("uy")) {
+            return word.substring(0, word.length() - 1) + "ies";
+        }
+
+        return word + "s";
     }
 
-    public static String workshop() {
-        return sentenceGuaranteedAmount(500);
+    public static String buildPluralVerb(String verb, boolean plural) {
+        int last = verb.trim().length() - 1;
+        if (last < 0) {
+            return verb;
+        }
+
+        if (plural) {
+            return verb;
+        }
+
+        String sExtension = verb.substring(0, last + 1) + "s" + verb.substring(last + 1);
+        String esExtension = verb.substring(0, last + 1) + "es" + verb.substring(last + 1);
+        if (verb.charAt(last) == 's' || verb.charAt(last) == 'o' || verb.charAt(last) == 'z') {
+            return esExtension;
+        } else if (verb.charAt(last) == 'h') {
+            if (verb.charAt(last - 1) == 'c' || verb.charAt(last - 1) == 's') {
+                return esExtension;
+            }
+            return sExtension;
+        } else if (verb.charAt(last) == 'y') {
+            if (verb.charAt(last - 1) == 'a' || verb.charAt(last - 1) == 'e' || verb.charAt(last - 1) == 'i' || verb.charAt(last - 1) == 'o' || verb.charAt(last - 1) == 'u') {
+                return sExtension;
+            }
+            return verb.substring(0, last) + "ies" + verb.substring(last + 1);
+        }
+
+        return sExtension;
     }
 
-    public static String shortWorkshop() {
-        return sentenceGuaranteedAmount(5).trim();
+    public static String abbreviate(String s, double probability) {
+        if (Math.random() < probability) {
+            return s + " (" + sillyAbbreviationGeneratorSAS(s) + ")";
+        }
+        return s;
     }
 
-    public static String financialReport() {
-        return sentences();
+
+    public static String weightedChoice(Map<String, Integer> choices) {
+        int totalWeight = choices.values().stream().mapToInt(Integer::intValue).sum();
+
+        int randomWeight = rand.nextInt(totalWeight);
+        for (Map.Entry<String, Integer> entry : choices.entrySet()) {
+            randomWeight -= entry.getValue();
+            if (randomWeight < 0) {
+                return entry.getKey();
+            }
+        }
+
+        return "";
+    }
+
+    public static String cleanup(String text) {
+        return text
+                .replaceAll("\\s+", " ")
+                .replaceAll(";\\.",".")
+                .replaceAll(" ,", ",");
     }
 
 }

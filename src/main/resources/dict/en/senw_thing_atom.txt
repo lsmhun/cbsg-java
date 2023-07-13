@@ -1,0 +1,7 @@
+198,
+270,$thingInner
+1,Quality Research
+1,Customer Experience
+1,Customer Experience Management
+1,$timelessEvent
+

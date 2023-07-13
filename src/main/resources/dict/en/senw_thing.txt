@@ -1,8 +1,8 @@
 66,$thingAtom
-10,$thingAdjective, $thingAdjective $thingAtomPlural
-5,$thingAdjective $thingAtomPlural
-65,$thingAdjective and $thingAdjective $thingAtomPlural
-2,$thingAdjective and/or $thingAdjective $thingAtomPlural
+10,$thingAdjective, $thingAdjective $thingAtom
+5,$thingAdjective $thingAtom
+65,$thingAdjective and $thingAdjective $thingAtom
+2,$thingAdjective and/or $thingAdjective $thingAtom
 2,$growth
-6,$thingAdjective, $thingAdjective and $thingAdjective $thingAtomPlural
-4,$thingAdjective $thingAtomPlural
+6,$thingAdjective, $thingAdjective and $thingAdjective $thingAtom
+4,$thingAdjective $thingAtom

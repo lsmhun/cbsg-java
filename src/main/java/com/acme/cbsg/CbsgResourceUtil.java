@@ -48,14 +48,13 @@ public class CbsgResourceUtil {
     private Scanner getScannerForResourceFile(String resourceFileName) {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream is = classloader.getResourceAsStream(resourceFileName);
-        Scanner scanner = new Scanner(is);
-//        //todo: enable this null check
-//        Scanner scanner;
-//        if(is == null){
-//            scanner = new Scanner("");
-//        } else {
-//         scanner = new Scanner(is);
-//        }
+        //todo: enable this null check
+        Scanner scanner;
+        if(is == null){
+            scanner = new Scanner("");
+        } else {
+         scanner = new Scanner(is);
+        }
         return scanner;
     }
 }

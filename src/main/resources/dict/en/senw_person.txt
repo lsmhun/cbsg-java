@@ -1,3 +1,5 @@
-1,%s champion
-32,%s
+1,$thingAtom champion
+1,$thingAtomPlural champion
+16,$thingAtom
+16,$thingAtomPlural
 14,$boss

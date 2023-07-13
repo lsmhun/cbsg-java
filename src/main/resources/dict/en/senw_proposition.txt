@@ -11,7 +11,7 @@
 1,$addIndefiniteArticle goes hand-in-hand with $addIndefiniteArticle
 1,the $person will be well equipped to $personInfinitiveVerbAndEnding
 1,$thingAtom is a matter of speed of action
-1,$thingAtom won't happen without $thingAtomRandom ,
+1,$thingAtom won't happen without $thingAtomRandom,
 1,$thingWithRandomArticlePlural will be best positioned to $personInfinitiveVerbAndEnding
 1,$thingAtom in the digital age calls for $thingAtomRandom
 1,$thingAtom moves the company up the value chain

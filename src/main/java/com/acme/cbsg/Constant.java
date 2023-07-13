@@ -20,7 +20,7 @@ public class Constant {
 
 
     public static final String WORD_PERSON_VERB_DEFINITE_ENDING = "dict/en/word_person_verb_definite_ending.txt";
-    public static final String WORD_PERSON_NOT_PLURAL = "dict/en/word_person_not_plural.txt";
+    public static final String WORD_PERSON = "dict/en/word_person.txt";
     public static final String WORD_PERSON_PLURAL = "dict/en/word_person_plural.txt";
     public static final String WORD_PERSON_INNER_HAVING_THING_COMPLEMENT = "dict/en/word_person_inner_verb_having_thing_complement.txt";
     public static final String WORD_PERSON_HAVING_BAD_THING_COMPLEMENT = "dict/en/word_person_verb_having_bad_thing_complement.txt";
@@ -34,8 +34,10 @@ public class Constant {
 
     /* SENTENTENCE WITH WEIGHT */
     public static final String SENW_THING = "dict/en/senw_thing.txt";
+    public static final String SENW_THING_PLURAL = "dict/en/senw_thing_plural.txt";
     public static final String SENW_THING_INNER = "dict/en/senw_thing_inner.txt";
     public static final String SENW_THING_ATOM = "dict/en/senw_thing_atom.txt";
+    public static final String SENW_THING_ATOM_PLURAL = "dict/en/senw_thing_atom_plural.txt";
     public static final String SENW_THING_VERB_ENDING = "dict/en/senw_thing_verb_ending.txt";
 
     public static final String SENW_ORG = "dict/en/senw_org.txt";
