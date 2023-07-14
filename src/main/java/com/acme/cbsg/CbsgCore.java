@@ -207,24 +207,16 @@ public class CbsgCore implements Cbsg {
     }
 
     private String addRandomArticle(String word, boolean plural) {
-        int r = rand.nextInt(15);
-        if (r <= 2) {
+        //todo
+        int r = rand.nextInt(150);
+        if (r <= 20) {
             return "the " + word;
-        } else if (r < 6) {
+        } else if (r < 60) {
             return "our " + word;
+        } else if (r < 61){
+            return "the 'why' behind " + word;
         }
         return addIndefiniteArticle(word, plural);
-    }
-
-    private String thingWithRandomArticle(){
-        if (rand.nextInt(100) == 1) {
-            return "the 'why' behind " + thing();
-        }
-        return addRandomArticle(thing(), false);
-    }
-
-    private String thingWithRandomArticlePlural() {
-        return addRandomArticle(thingPlural(), true);
     }
 
     private String innerPersonVerbHavingThingComplement() {
@@ -259,10 +251,11 @@ public class CbsgCore implements Cbsg {
     }
 
     private String thingVerbAndEnding() {
+        //todo
         boolean compl_sp = rand.nextBoolean();
         int r = rand.nextInt(103);
         if (r < 55) {
-            return thingVerbHavingThingComplement(false) + " " + thingWithRandomArticle();
+            return thingVerbHavingThingComplement(false) + " " + addRandomArticle(thing(), false);
                     //thingWithRandomArticle(compl_sp)));
         } else if (r < 100) {
             return personVerbHavingPersonComplement(false) + " the " +
@@ -272,10 +265,11 @@ public class CbsgCore implements Cbsg {
     }
 
     private String thingVerbAndEndingPlural() {
+        // todo
         boolean compl_sp = rand.nextBoolean();
         int r = rand.nextInt(103);
         if (r < 55) {
-            return thingVerbHavingThingComplement(true) + " " + thingWithRandomArticlePlural();
+            return thingVerbHavingThingComplement(true) + " " + addRandomArticle(thingPlural(), true);
                     //thingWithRandomArticle(compl_sp)));
         } else if (r < 100) {
             return personVerbHavingPersonComplement(true) + " the " +
@@ -285,6 +279,7 @@ public class CbsgCore implements Cbsg {
     }
 
     private String personVerbAndEnding(boolean plural, boolean infinitive) {
+        //todo
         boolean compl_sp = rand.nextBoolean();
         int r = rand.nextInt(95);
         if (r < 10) {
@@ -294,11 +289,7 @@ public class CbsgCore implements Cbsg {
                     addRandomArticle(badThings(), plural));
         }
         return personVerbHavingThingComplement(plural, infinitive) + " " +
-                (compl_sp? thingWithRandomArticle() : thingWithRandomArticlePlural() );
-    }
-
-    private String personInfinitiveVerbAndEnding() {
-        return personVerbAndEnding(true, true);
+                (compl_sp? addRandomArticle(thing(), false) : addRandomArticle(thingPlural(), true) );
     }
 
     private String faukon() {
@@ -319,7 +310,7 @@ public class CbsgCore implements Cbsg {
 
     private String personVerbAndDefiniteEnding(boolean plural, boolean infinitive) {
         String weightedProposition = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_PERSON_VERB_AND_DEFINITE_ENDING)));
-        String inner=(weightedProposition == null || "".equals(weightedProposition))
+        String inner = (weightedProposition == null || "".equals(weightedProposition))
                 ? randomChoice(dict.stringList(p.getProperty(WORD_PERSON_VERB_DEFINITE_ENDING)))
                 : evaluateValues(weightedProposition);
         if (infinitive) {
@@ -364,13 +355,14 @@ public class CbsgCore implements Cbsg {
             case "$thingAtomPlural" : result = thingAtomPlural();break;
             case "$thingVerbAndEnding" : result = thingVerbAndEnding();break;
             case "$thingVerbAndEndingPlural" : result = thingVerbAndEndingPlural();break;
-            case "$thingWithRandomArticle" : result = thingWithRandomArticle();break;
-            case "$thingWithRandomArticlePlural" : result = thingWithRandomArticlePlural();break;
-            case "$thingWithRandomArticleRandom" : result = rand.nextBoolean() ? thingWithRandomArticle() : thingWithRandomArticlePlural();break;
+            case "$thingWithRandomArticle" : result = addRandomArticle(thing(), false);break;
+            case "$thingWithRandomArticlePlural" : result = addRandomArticle(thingPlural(), true);break;
+            case "$thingWithRandomArticleRandom" : result = rand.nextBoolean()
+                    ? addRandomArticle(thing(), false) : addRandomArticle(thingPlural(), true);break;
             case "$person" : result = person();break;
             case "$personPlural" : result = personPlural();break;
             case "$personRandom" : result = rand.nextBoolean() ? person() : personPlural();break;
-            case "$personInfinitiveVerbAndEnding" : result = personInfinitiveVerbAndEnding();break;
+            case "$personInfinitiveVerbAndEnding" : result = personVerbAndEnding(true, true);break;
             case "$personVerbAndEnding" : result = personVerbAndEnding(false, false);break;
             case "$personVerbHavingPersonComplement" : result = personVerbHavingPersonComplement(false);break;
             case "$boss" : result = boss();break;
@@ -381,7 +373,8 @@ public class CbsgCore implements Cbsg {
             case "$addIndefiniteArticleGrowthPlural" : result = addIndefiniteArticle(growth(), true);break;
             case "$addIndefiniteArticleThing" : result = addIndefiniteArticle(thing(), false);break;
             case "$addIndefiniteArticleThingPlural" : result = addIndefiniteArticle(thingPlural(), true);break;
-            case "$addIndefiniteArticleThingRandom" : result = rand.nextBoolean() ? addIndefiniteArticle(thing(), false) : addIndefiniteArticle(thingPlural(), true);break;
+            case "$addIndefiniteArticleThingRandom" : result = rand.nextBoolean()
+                    ? addIndefiniteArticle(thing(), false) : addIndefiniteArticle(thingPlural(), true);break;
             case "$proposition" : result = proposition();break;
             case "$matrixOrSOPlural" : result = makeEventualPlural(matrixOrSO(), true);break;
             case "$matrixOrSO" : result = matrixOrSO();break;
@@ -413,7 +406,9 @@ public class CbsgCore implements Cbsg {
             return word + "s";
         } else if (word.endsWith("s") || word.endsWith("x") || word.endsWith("z") || word.endsWith("h")) {
             return word + "es";
-        } else if (word.endsWith("y") && !word.toLowerCase().endsWith("ay") && !word.toLowerCase().endsWith("ey") && !word.toLowerCase().endsWith("iy") && !word.toLowerCase().endsWith("oy") && !word.toLowerCase().endsWith("uy")) {
+        } else if (word.endsWith("y") && !word.toLowerCase().endsWith("ay") && !word.toLowerCase().endsWith("ey")
+                && !word.toLowerCase().endsWith("iy") && !word.toLowerCase().endsWith("oy")
+                && !word.toLowerCase().endsWith("uy")) {
             return word.substring(0, word.length() - 1) + "ies";
         }
 

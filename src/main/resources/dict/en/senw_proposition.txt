@@ -4,7 +4,7 @@
 5,$thingAtomRandom and $thingAtomRandom  $eventualAdverb $thingVerbAndEnding $eventualPostfixedAdverb
 3,$thingAtom, $thingAtom and $thingAtom $eventualAdverb $thingVerbAndEndingPlural $eventualPostfixedAdverb
 1,there can be no $growthAtom until we can achieve $addIndefiniteArticleGrowth
-1,$thing is all about $thing
+1,$thing is all about $thingRandom
 1,there is no alternative to $thingAtomRandom
 1,the key to $thingAtom is $thingAtom
 1,opting out of $thing is not a choice
@@ -12,7 +12,7 @@
 1,the $person will be well equipped to $personInfinitiveVerbAndEnding
 1,$thingAtom is a matter of speed of action
 1,$thingAtom won't happen without $thingAtomRandom,
-1,$thingWithRandomArticlePlural will be best positioned to $personInfinitiveVerbAndEnding
+1,$thingWithRandomArticle will be best positioned to $personInfinitiveVerbAndEnding
 1,$thingAtom in the digital age calls for $thingAtomRandom
 1,$thingAtom moves the company up the value chain
 1,$thingAtom requires that we all pull in the same direction
