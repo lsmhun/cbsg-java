@@ -1,3 +1,5 @@
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/lsmhun/cbsg-java/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/lsmhun/cbsg-java/tree/main)
+
 # Corporate Bullshit Generator for Java
 
 This is the [Corporate Bullshit Generator](http://cbsg.sf.net/) rewritten in Java. 
