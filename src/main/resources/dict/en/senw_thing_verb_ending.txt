@@ -1,2 +1,4 @@
-3,
-55,%s the %s
+5,
+50,$thingVerbHavingThingComplement $thingWithRandomArticleRandom
+25,$personVerbHavingPersonComplement the $person
+25,$personVerbHavingPersonComplement the $personPlural

@@ -1,0 +1,7 @@
+10,$personVerbAndDefiniteEndingPluralInf
+2,$personVerbHavingBadThingComplement $badThingWithRandomArticle
+2,$personVerbHavingBadThingComplement $badThingWithRandomArticlePlural
+2,$personVerbHavingBadThingComplementPlural $badThingWithRandomArticlePlural
+40,$personVerbHavingThingComplement $thingWithRandomArticle
+40,$personVerbHavingThingComplement $thingWithRandomArticlePlural
+40,$personVerbHavingThingComplementPlural $thingWithRandomArticlePlural

@@ -1,6 +1,7 @@
 5,$faukon $personInfinitiveVerbAndEnding $eventualPostfixedAdverb
 45,the $person $eventualAdverb $personVerbAndEnding $eventualPostfixedAdverb
-47,$thingWithRandomArticlePlural $eventualAdverb $thingVerbAndEnding $eventualPostfixedAdverb
+20,$thingWithRandomArticlePlural $eventualAdverb $thingVerbAndEndingPlural $eventualPostfixedAdverb
+27,$thingWithRandomArticle $eventualAdverb $thingVerbAndEnding $eventualPostfixedAdverb
 5,$thingAtomRandom and $thingAtomRandom  $eventualAdverb $thingVerbAndEnding $eventualPostfixedAdverb
 3,$thingAtom, $thingAtom and $thingAtom $eventualAdverb $thingVerbAndEndingPlural $eventualPostfixedAdverb
 1,there can be no $growthAtom until we can achieve $addIndefiniteArticleGrowth

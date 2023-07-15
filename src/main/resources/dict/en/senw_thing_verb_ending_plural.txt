@@ -1,0 +1,4 @@
+5,
+50,$thingVerbHavingThingComplementPlural $thingWithRandomArticleRandom
+25,$personVerbHavingPersonComplementPlural the $person
+25,$personVerbHavingPersonComplementPlural the $personPlural

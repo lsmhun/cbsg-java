@@ -39,6 +39,7 @@ public class CbsgDictionaryKey {
     public static final String SENW_THING_ATOM = "SENW_THING_ATOM";
     public static final String SENW_THING_ATOM_PLURAL = "SENW_THING_ATOM_PLURAL";
     public static final String SENW_THING_VERB_ENDING = "SENW_THING_VERB_ENDING";
+    public static final String SENW_THING_VERB_ENDING_PLURAL = "SENW_THING_VERB_ENDING_PLURAL";
 
     public static final String SENW_ORG = "SENW_ORG";
 
@@ -59,5 +60,8 @@ public class CbsgDictionaryKey {
     public static final String SENW_EVENTUAL_POSTFIXED_ADVERB = "SENW_EVENTUAL_POSTFIXED_ADVERB";
     public static final String SENW_FAUKON = "SENW_FAUKON";
     public static final String SENW_PERSON_VERB_AND_DEFINITE_ENDING = "SENW_PERSON_VERB_AND_DEFINITE_ENDING";
+    public static final String SENW_PERSON_VERB_AND_ENDING = "SENW_PERSON_VERB_AND_ENDING";
+
+    public static final String SENW_ADD_RANDOM_ARTICLE = "SENW_ADD_RANDOM_ARTICLE";
 //
 }

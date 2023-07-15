@@ -28,6 +28,14 @@ class CbsgCoreTest {
     private final static CbsgResourceUtil cbsgResourceUtil = new CbsgResourceUtil();
 
     @Test
+    void sentence() {
+        Cbsg cbsgTest = new CbsgCore();
+        String result = cbsgTest.sentenceGuaranteedAmount(1);
+        System.out.println(result);
+        assertFalse(result.isEmpty());
+    }
+
+    @Test
     void shortWorkshopWithAaaaaaa() {
         Properties properties = cbsgResourceUtil.readProperties("dict/test/test_dictionary.properties");
         Cbsg cbsgTest = new CbsgCore(properties);

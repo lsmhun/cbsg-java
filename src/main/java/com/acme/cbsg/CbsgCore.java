@@ -207,16 +207,11 @@ public class CbsgCore implements Cbsg {
     }
 
     private String addRandomArticle(String word, boolean plural) {
-        //todo
-        int r = rand.nextInt(150);
-        if (r <= 20) {
-            return "the " + word;
-        } else if (r < 60) {
-            return "our " + word;
-        } else if (r < 61){
-            return "the 'why' behind " + word;
+        String weightedRandomArticle = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_ADD_RANDOM_ARTICLE)));
+        if(weightedRandomArticle == null || "".equals(weightedRandomArticle)){
+            return addIndefiniteArticle(word, plural);
         }
-        return addIndefiniteArticle(word, plural);
+        return evaluateValues(String.format(weightedRandomArticle, word));
     }
 
     private String innerPersonVerbHavingThingComplement() {
@@ -251,31 +246,19 @@ public class CbsgCore implements Cbsg {
     }
 
     private String thingVerbAndEnding() {
-        //todo
-        boolean compl_sp = rand.nextBoolean();
-        int r = rand.nextInt(103);
-        if (r < 55) {
-            return thingVerbHavingThingComplement(false) + " " + addRandomArticle(thing(), false);
-                    //thingWithRandomArticle(compl_sp)));
-        } else if (r < 100) {
-            return personVerbHavingPersonComplement(false) + " the " +
-                    (compl_sp? person() : personPlural());
+        String weightedVerbAndEnding = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_THING_VERB_ENDING)));
+        if(weightedVerbAndEnding == null || "".equals(weightedVerbAndEnding)){
+            return thingVerbAndDefiniteEnding(false);
         }
-        return thingVerbAndDefiniteEnding(false);
+        return evaluateValues(weightedVerbAndEnding);
     }
 
     private String thingVerbAndEndingPlural() {
-        // todo
-        boolean compl_sp = rand.nextBoolean();
-        int r = rand.nextInt(103);
-        if (r < 55) {
-            return thingVerbHavingThingComplement(true) + " " + addRandomArticle(thingPlural(), true);
-                    //thingWithRandomArticle(compl_sp)));
-        } else if (r < 100) {
-            return personVerbHavingPersonComplement(true) + " the " +
-                    ( compl_sp? person() : personPlural());
+        String weightedVerbAndEnding = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_THING_VERB_ENDING_PLURAL)));
+        if(weightedVerbAndEnding == null || "".equals(weightedVerbAndEnding)){
+            return thingVerbAndDefiniteEnding(true);
         }
-        return thingVerbAndDefiniteEnding(true);
+        return evaluateValues(weightedVerbAndEnding);
     }
 
     private String personVerbAndEnding(boolean plural, boolean infinitive) {
@@ -355,16 +338,26 @@ public class CbsgCore implements Cbsg {
             case "$thingAtomPlural" : result = thingAtomPlural();break;
             case "$thingVerbAndEnding" : result = thingVerbAndEnding();break;
             case "$thingVerbAndEndingPlural" : result = thingVerbAndEndingPlural();break;
+            case "$thingVerbHavingThingComplement" : result = thingVerbHavingThingComplement(false);break;
+            case "$thingVerbHavingThingComplementPlural" : result = thingVerbHavingThingComplement(true);break;
             case "$thingWithRandomArticle" : result = addRandomArticle(thing(), false);break;
             case "$thingWithRandomArticlePlural" : result = addRandomArticle(thingPlural(), true);break;
             case "$thingWithRandomArticleRandom" : result = rand.nextBoolean()
                     ? addRandomArticle(thing(), false) : addRandomArticle(thingPlural(), true);break;
+            case "$badThingWithRandomArticle" : result = addRandomArticle(badThings(), false);break;
+            case "$badThingWithRandomArticlePlural" : result = addRandomArticle(badThings(), true);break;
             case "$person" : result = person();break;
             case "$personPlural" : result = personPlural();break;
             case "$personRandom" : result = rand.nextBoolean() ? person() : personPlural();break;
             case "$personInfinitiveVerbAndEnding" : result = personVerbAndEnding(true, true);break;
             case "$personVerbAndEnding" : result = personVerbAndEnding(false, false);break;
             case "$personVerbHavingPersonComplement" : result = personVerbHavingPersonComplement(false);break;
+            case "$personVerbHavingPersonComplementPlural" : result = personVerbHavingPersonComplement(true);break;
+
+            case "$personVerbHavingThingComplement" : result = personVerbHavingThingComplement(false, false);break;
+            case "$personVerbHavingBadThingComplement" : result = personVerbHavingBadThingComplement(false);break;
+            case "$personVerbHavingBadThingComplementPlural" : result = personVerbHavingBadThingComplement(true);break;
+
             case "$boss" : result = boss();break;
             case "$eventualAdverb" : result = eventualAdverb();break;
             case "$eventualPostfixedAdverb" : result = eventualPostfixedAdverb();break;
@@ -379,6 +372,10 @@ public class CbsgCore implements Cbsg {
             case "$matrixOrSOPlural" : result = makeEventualPlural(matrixOrSO(), true);break;
             case "$matrixOrSO" : result = matrixOrSO();break;
             case "$timelessEvent": result = timelessEvent();break;
+            case "$personVerbAndDefiniteEnding": result = personVerbAndDefiniteEnding(false, false);break;
+            case "$personVerbAndDefiniteEndingInf": result = personVerbAndDefiniteEnding(false, true);break;
+            case "$personVerbAndDefiniteEndingPlural": result = personVerbAndDefiniteEnding(true, false);break;
+            case "$personVerbAndDefiniteEndingPluralInf": result = personVerbAndDefiniteEnding(true, true);break;
 
         }
         return result;
@@ -417,11 +414,7 @@ public class CbsgCore implements Cbsg {
 
     private String buildPluralVerb(String verb, boolean plural) {
         int last = verb.trim().length() - 1;
-        if (last < 0) {
-            return verb;
-        }
-
-        if (plural) {
+        if ( plural || last < 0 ) {
             return verb;
         }
 
