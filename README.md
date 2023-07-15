@@ -5,13 +5,12 @@ Implementation is based on [franciscouzo](https://github.com/franciscouzo/corpor
 Python code.
 
 ## Usage
-Actually this is how it works:
 
-Simple run `java -jar cbsg-1.0.0.jar` then "short workshop" will be generated.
+Simple run `java -jar cbsg-0.1.0.jar` then "short workshop" will be generated.
 there are some supported parameters for dedicated workspace influencers.
 
 ```shell
-java -jar cbsg-1.0.0.jar --help
+java -jar cbsg-0.1.0.jar --help
 
 Available options:
 --workshop
@@ -27,9 +26,16 @@ Available options:
 ## Examples
 
 ```
-Our challenge is not to learn phased and pre-approved cubes. Our challenge is to challenge established ideas. The correlations transfers the pioneers, relative to our peers, while the glocalization get from here to heres in this spa
-ce. The blockchain influences the thinkers/planners in this space. A pyramid will be best positioned to analyse the 'why' behind on-premise and spot-on matrices. The social implications iterates our multi-divisional and differentia
-ting roll-out by thinking outside of the box.
+Matrices promote the Growth Hackers across and beyond the cubes; this is why 
+expertise in the digital age calls for silos. The sphere promotes our cubes 
+within the community, whereas a matrix 24/7 reenergizes the resources within 
+the community. There is no alternative to sphere. Matrices revolutionise 
+an organization, as a Tier 1 company. In the same time, the diversities 
+proactively reintermediates our cube up, down and across the matrix. 
+Matrix in the digital age calls for sphere.
+
+Cubes will be a thing of the past over the next decade and be fully 
+replaced with intra-company, enhanced motions. 
 ```
 
 ## Documentation
