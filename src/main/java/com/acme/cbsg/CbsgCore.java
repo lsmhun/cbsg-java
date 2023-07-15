@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 import static com.acme.cbsg.CbsgDictionaryKey.*;
 
-public class CbsgCore implements Cbsg {
+public final class CbsgCore implements Cbsg {
 
     private final static CbsgResourceUtil dict = new CbsgResourceUtil();
     private final Properties p;

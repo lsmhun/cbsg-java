@@ -5,7 +5,7 @@ import java.util.Properties;
 
 import static com.acme.cbsg.CbsgResourceUtil.DEFAULT_DICTIONARY_PROPERIES;
 
-public class CbsgGenerator {
+public final class CbsgGenerator {
 
     public static final String WORKSHOP = "--workshop";
     public static final String SHORT_WORKSHOP = "--shortWorkshop";

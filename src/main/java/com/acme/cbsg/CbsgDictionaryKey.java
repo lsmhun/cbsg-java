@@ -1,6 +1,6 @@
 package com.acme.cbsg;
 
-public class CbsgDictionaryKey {
+public final class CbsgDictionaryKey {
 
     public static final String WORD_GROWTH_ATOM = "WORD_GROWTH_ATOM";
     public static final String WORD_GROWTH = "WORD_GROWTH";
