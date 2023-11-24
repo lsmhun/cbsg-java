@@ -12,33 +12,33 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.stream.Stream;
 
 import static com.acme.cbsg.CbsgCore.VAR_PATTERN;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CbsgCoreTest {
 
-    private final static CbsgResourceUtil cbsgResourceUtil = new CbsgResourceUtil();
+    //private final static CbsgDictionary CBSG_DICTIONARY = new CbsgDictionary();
 
     @Test
     void sentence() {
         Cbsg cbsgTest = new CbsgCore();
         String result = cbsgTest.sentenceGuaranteedAmount(1);
-        System.out.println(result);
         assertFalse(result.isEmpty());
     }
 
     @Test
     void shortWorkshopWithAaaaaaa() {
-        Properties properties = cbsgResourceUtil.readProperties("dict/test/test_dictionary.properties");
-        Cbsg cbsgTest = new CbsgCore(properties);
+        CbsgDictionary dict = new CbsgDictionary("dict/test/test_dictionary.csv");
+        Cbsg cbsgTest = new CbsgCore(dict);
         String result = cbsgTest.shortWorkshop();
         assertFalse(result.isEmpty());
         String[] splitted = result.split(" ");
@@ -49,8 +49,8 @@ class CbsgCoreTest {
 
     @Test
     void shortWorkshopWithEmptyDict() {
-        Properties properties = new Properties();
-        Cbsg cbsgTest = new CbsgCore(properties);
+        CbsgDictionary dict = new CbsgDictionary("NOTHING");
+        Cbsg cbsgTest = new CbsgCore(dict);
         String result = cbsgTest.shortWorkshop();
         assertTrue(result.trim().isEmpty());
     }

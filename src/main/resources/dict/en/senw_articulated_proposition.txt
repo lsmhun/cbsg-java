@@ -1,50 +1,50 @@
-270,$proposition
-10,$proposition; this is why $proposition
-10,$proposition; nevertheless $proposition
-10,$proposition, whereas $proposition
-40,$proposition, while $proposition
-10,$proposition. In the same time, $proposition
-10,$proposition. As a result, $proposition
-10,$proposition, whilst $proposition
-3,our gut-feeling is that $proposition
-3,going forward, $proposition
-3,actually, $proposition
-3,in the future, $proposition
-3,flat out, $proposition
-3,first and foremost, $proposition
-1,in today's fast-changing world, $proposition
-1,internally and externally, $proposition
-1,our message is: $proposition
-1,in a data-first world, $proposition
-1, the future awaits
-1,success brings success;
-1,everyone is coming to grips with the fact that $proposition
-1,as the consumer and commerce landscape continues to evolve $proposition
-1,in an age of information, $proposition
-1,in a growing digital environment, $proposition
-5,$faukon $personInfinitiveVerbAndEnding $eventualPostfixedAdverb
-45,the $person $eventualAdverb $personVerbAndEnding $eventualPostfixedAdverb
-47,$thingWithRandomArticlePlural $eventualAdverb $thingVerbAndEnding $eventualPostfixedAdverb
-5,$thingAtomRandom and $thingAtomRandom  $eventualAdverb $thingVerbAndEnding $eventualPostfixedAdverb
-3,$thingAtom, $thingAtom and $thingAtom $eventualAdverb $thingVerbAndEndingPlural $eventualPostfixedAdverb
-1,there can be no $growthAtom until we can achieve $addIndefiniteArticleGrowth
-1,$thing is all about $thing
-1,there is no alternative to $thingAtomRandom
-1,the key to $thingAtom is $thingAtom
-1,opting out of $thing is not a choice
-1,$addIndefiniteArticleGrowth goes hand-in-hand with $addIndefiniteArticleGrowth
-1,the $person will be well equipped to $personInfinitiveVerbAndEnding
-1,$thingAtom is a matter of speed of action
-1,$thingAtom won't happen without $thingAtomRandom,
-1,$thingWithRandomArticlePlural will be best positioned to $personInfinitiveVerbAndEnding
-1,$thingAtom in the digital age calls for $thingAtomRandom
-1,$thingAtom moves the company up the value chain
-1,$thingAtom requires that we all pull in the same direction
-3,the point is not merely to $personInfinitiveVerbAndEnding. The point is to $personInfinitiveVerbAndEnding
-4,it's not about $thingAtomRandom. It's about $thingWithRandomArticleRandom
-3,our challenge is not to $personInfinitiveVerbAndEnding. Our challenge is to $personInfinitiveVerbAndEnding
-4,the game is all about $thingAtom, $thingAtom, $thingAtom, $thingAtom, and $thingAtom - not $thingAtom, $thingAtom, $thingAtom, $thingAtom, and $thingAtom
-1,$thingAtomPlural not only thrive on change, they initiate it
-1,as the pace of $thingAtomRandom continues to accelerate, $thingAtom has become a necessity
-1,$thingAtom, $thingAtom, $thingAtom, $thingAtom - all are competing for the attention of $person
-1,$thingPlural will be a thing of the past over the next decade and be fully replaced with $thingRandom
+SENW_ARTICULATED_PROPOSITION,270,$proposition
+SENW_ARTICULATED_PROPOSITION,10,$proposition; this is why $proposition
+SENW_ARTICULATED_PROPOSITION,10,$proposition; nevertheless $proposition
+SENW_ARTICULATED_PROPOSITION,10,$proposition, whereas $proposition
+SENW_ARTICULATED_PROPOSITION,40,$proposition, while $proposition
+SENW_ARTICULATED_PROPOSITION,10,$proposition. In the same time, $proposition
+SENW_ARTICULATED_PROPOSITION,10,$proposition. As a result, $proposition
+SENW_ARTICULATED_PROPOSITION,10,$proposition, whilst $proposition
+SENW_ARTICULATED_PROPOSITION,3,our gut-feeling is that $proposition
+SENW_ARTICULATED_PROPOSITION,3,going forward, $proposition
+SENW_ARTICULATED_PROPOSITION,3,actually, $proposition
+SENW_ARTICULATED_PROPOSITION,3,in the future, $proposition
+SENW_ARTICULATED_PROPOSITION,3,flat out, $proposition
+SENW_ARTICULATED_PROPOSITION,3,first and foremost, $proposition
+SENW_ARTICULATED_PROPOSITION,1,in today's fast-changing world, $proposition
+SENW_ARTICULATED_PROPOSITION,1,internally and externally, $proposition
+SENW_ARTICULATED_PROPOSITION,1,our message is: $proposition
+SENW_ARTICULATED_PROPOSITION,1,in a data-first world, $proposition
+SENW_ARTICULATED_PROPOSITION,1, the future awaits
+SENW_ARTICULATED_PROPOSITION,1,success brings success;
+SENW_ARTICULATED_PROPOSITION,1,everyone is coming to grips with the fact that $proposition
+SENW_ARTICULATED_PROPOSITION,1,as the consumer and commerce landscape continues to evolve $proposition
+SENW_ARTICULATED_PROPOSITION,1,in an age of information, $proposition
+SENW_ARTICULATED_PROPOSITION,1,in a growing digital environment, $proposition
+SENW_ARTICULATED_PROPOSITION,5,$faukon $personInfinitiveVerbAndEnding $eventualPostfixedAdverb
+SENW_ARTICULATED_PROPOSITION,45,the $person $eventualAdverb $personVerbAndEnding $eventualPostfixedAdverb
+SENW_ARTICULATED_PROPOSITION,47,$thingWithRandomArticlePlural $eventualAdverb $thingVerbAndEnding $eventualPostfixedAdverb
+SENW_ARTICULATED_PROPOSITION,5,$thingAtomRandom and $thingAtomRandom  $eventualAdverb $thingVerbAndEnding $eventualPostfixedAdverb
+SENW_ARTICULATED_PROPOSITION,3,$thingAtom, $thingAtom and $thingAtom $eventualAdverb $thingVerbAndEndingPlural $eventualPostfixedAdverb
+SENW_ARTICULATED_PROPOSITION,1,there can be no $growthAtom until we can achieve $addIndefiniteArticleGrowth
+SENW_ARTICULATED_PROPOSITION,1,$thing is all about $thing
+SENW_ARTICULATED_PROPOSITION,1,there is no alternative to $thingAtomRandom
+SENW_ARTICULATED_PROPOSITION,1,the key to $thingAtom is $thingAtom
+SENW_ARTICULATED_PROPOSITION,1,opting out of $thing is not a choice
+SENW_ARTICULATED_PROPOSITION,1,$addIndefiniteArticleGrowth goes hand-in-hand with $addIndefiniteArticleGrowth
+SENW_ARTICULATED_PROPOSITION,1,the $person will be well equipped to $personInfinitiveVerbAndEnding
+SENW_ARTICULATED_PROPOSITION,1,$thingAtom is a matter of speed of action
+SENW_ARTICULATED_PROPOSITION,1,$thingAtom won't happen without $thingAtomRandom,
+SENW_ARTICULATED_PROPOSITION,1,$thingWithRandomArticlePlural will be best positioned to $personInfinitiveVerbAndEnding
+SENW_ARTICULATED_PROPOSITION,1,$thingAtom in the digital age calls for $thingAtomRandom
+SENW_ARTICULATED_PROPOSITION,1,$thingAtom moves the company up the value chain
+SENW_ARTICULATED_PROPOSITION,1,$thingAtom requires that we all pull in the same direction
+SENW_ARTICULATED_PROPOSITION,3,the point is not merely to $personInfinitiveVerbAndEnding. The point is to $personInfinitiveVerbAndEnding
+SENW_ARTICULATED_PROPOSITION,4,it's not about $thingAtomRandom. It's about $thingWithRandomArticleRandom
+SENW_ARTICULATED_PROPOSITION,3,our challenge is not to $personInfinitiveVerbAndEnding. Our challenge is to $personInfinitiveVerbAndEnding
+SENW_ARTICULATED_PROPOSITION,4,the game is all about $thingAtom, $thingAtom, $thingAtom, $thingAtom, and $thingAtom - not $thingAtom, $thingAtom, $thingAtom, $thingAtom, and $thingAtom
+SENW_ARTICULATED_PROPOSITION,1,$thingAtomPlural not only thrive on change, they initiate it
+SENW_ARTICULATED_PROPOSITION,1,as the pace of $thingAtomRandom continues to accelerate, $thingAtom has become a necessity
+SENW_ARTICULATED_PROPOSITION,1,$thingAtom, $thingAtom, $thingAtom, $thingAtom - all are competing for the attention of $person
+SENW_ARTICULATED_PROPOSITION,1,$thingPlural will be a thing of the past over the next decade and be fully replaced with $thingRandom

@@ -6,7 +6,7 @@
 
     <groupId>com.acme</groupId>
     <artifactId>cbsg</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 
     <name>Corporate Bullshit Generator for Java</name>
     <url>https://github.com/lsmhun/cbsg-java</url>

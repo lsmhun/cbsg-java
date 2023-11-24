@@ -1,4 +1,4 @@
-kick-off
-roll-out
-client event
-quarterly results
+WORD_TIMELESS_EVENT,1,kick-off
+WORD_TIMELESS_EVENT,1,roll-out
+WORD_TIMELESS_EVENT,1,client event
+WORD_TIMELESS_EVENT,1,quarterly results

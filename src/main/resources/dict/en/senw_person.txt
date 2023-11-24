@@ -1,5 +1,5 @@
-1,$thingAtom champion
-1,$thingAtomPlural champion
-16,$thingAtom
-16,$thingAtomPlural
-14,$boss
+SENW_PERSON,1,$thingAtom champion
+SENW_PERSON,1,$thingAtomPlural champion
+SENW_PERSON,16,$thingAtom
+SENW_PERSON,16,$thingAtomPlural
+SENW_PERSON,14,$boss

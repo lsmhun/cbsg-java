@@ -1,6 +1,6 @@
-1,%s%sDirector
-1,%sChief
-1,%sHead
-1,%s%sPresident
-1,Supervisor
-1,%sManager
+SENW_BOSS_TITLE,1,%s%sDirector
+SENW_BOSS_TITLE,1,%sChief
+SENW_BOSS_TITLE,1,%sHead
+SENW_BOSS_TITLE,1,%s%sPresident
+SENW_BOSS_TITLE,1,Supervisor
+SENW_BOSS_TITLE,1,%sManager

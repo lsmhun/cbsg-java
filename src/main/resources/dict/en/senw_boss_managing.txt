@@ -1,4 +1,4 @@
-5,
-1,Managing
-1,Acting
-1,General
+SENW_BOSS_MANAGING,5,
+SENW_BOSS_MANAGING,1,Managing
+SENW_BOSS_MANAGING,1,Acting
+SENW_BOSS_MANAGING,1,General

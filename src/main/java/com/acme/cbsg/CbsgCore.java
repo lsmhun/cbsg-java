@@ -3,7 +3,6 @@ package com.acme.cbsg;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,19 +11,26 @@ import static com.acme.cbsg.CbsgDictionaryKey.*;
 
 public final class CbsgCore implements Cbsg {
 
-    private final static CbsgResourceUtil dict = new CbsgResourceUtil();
-    private final Properties p;
+    private final CbsgDictionary dict;
+//    private final CbsgDictionary cbsgConfiguration;
+//    private final Properties p;
 
     final static String VAR_REGEXP = "\\$[a-zA-Z\\d]+";
     final static Pattern VAR_PATTERN = Pattern.compile(VAR_REGEXP);
     public static Random rand = new Random();
 
     public CbsgCore() {
-       this.p = dict.readProperties(CbsgResourceUtil.DEFAULT_DICTIONARY_PROPERIES);
+        this.dict = new CbsgDictionary();
+//        this.p = dict.readProperties(CbsgResourceUtil.DEFAULT_DICTIONARY_PROPERIES);
+//        this.cbsgConfiguration = dictionaryUtil.readProperties()
     }
 
-    public CbsgCore(Properties cbsgConfiguration) {
-        this.p = cbsgConfiguration;
+//    public CbsgCore(Properties cbsgConfiguration) {
+//        this.p = cbsgConfiguration;
+//    }
+
+    public CbsgCore(CbsgDictionary dictionary) {
+        dict = dictionary;
     }
 
 
@@ -97,58 +103,58 @@ public final class CbsgCore implements Cbsg {
     }
 
     private String boss() {
-        String department = randomChoice(dict.stringList(p.getProperty(WORD_BOSS_DEPARTMENT)));
-        String departmentOrTopRole = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_BOSS_DEPT)));
+        String department = weightedChoice(WORD_BOSS_DEPARTMENT);
+        String departmentOrTopRole = weightedChoice(SENW_BOSS_DEPT);
 
         if (rand.nextInt(4) == 1) {
-            String managing = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_BOSS_MANAGING)));
-            String vice = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_BOSS_VICE)));
-            String co = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_BOSS_CO)));
-            String title = String.format(weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_BOSS_TITLE))), co, vice);
+            String managing = weightedChoice(SENW_BOSS_MANAGING);
+            String vice = weightedChoice(SENW_BOSS_VICE);
+            String co = weightedChoice(SENW_BOSS_CO);
+            String title = String.format(weightedChoice(SENW_BOSS_TITLE), co, vice);
 
-            String age = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_BOSS_AGE)));
-            String executive = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_BOSS_EXECUTIVE)));
+            String age = weightedChoice(SENW_BOSS_AGE);
+            String executive = weightedChoice(SENW_BOSS_EXECUTIVE);
             return managing + age + executive + title + " of " + department;
         }
-        String groupal = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_BOSS_GROUPAL)));
-        String officerOrCatalyst = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_BOSS_OFFICER)));
+        String groupal = weightedChoice(SENW_BOSS_GROUPAL);
+        String officerOrCatalyst = weightedChoice(SENW_BOSS_OFFICER);
         return groupal + abbreviate("Chief " + departmentOrTopRole + " " +
                 officerOrCatalyst, 0.6);
     }
 
     private String person() {
-        String personTemplate = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_PERSON)));
+        String personTemplate = weightedChoice(SENW_PERSON);
         if(personTemplate == null || "".equals(personTemplate)){
-            return randomChoice(dict.stringList(p.getProperty(WORD_PERSON)));
+            return weightedChoice(WORD_PERSON);
         }
         return evaluateValues(personTemplate);
     }
 
     private String personPlural() {
-        return randomChoice(dict.stringList(p.getProperty(WORD_PERSON_PLURAL)));
+        return weightedChoice(WORD_PERSON_PLURAL);
     }
 
 
     private String timelessEvent() {
-        return randomChoice(dict.stringList(p.getProperty(WORD_TIMELESS_EVENT)));
+        return weightedChoice(WORD_TIMELESS_EVENT);
     }
 
     private String growthAtom() {
-        return randomChoice(dict.stringList(p.getProperty(WORD_GROWTH_ATOM)));
+        return weightedChoice(WORD_GROWTH_ATOM);
     }
 
     private String growth() {
-        String superlative = randomChoice(dict.stringList(p.getProperty(WORD_GROWTH)));
+        String superlative = weightedChoice(WORD_GROWTH);
         return superlative + " " + growthAtom();
     }
 
     private String thingInner() {
-        String weightedThingInner = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_THING_INNER)));
+        String weightedThingInner = weightedChoice(SENW_THING_INNER);
         if(weightedThingInner == null || "".equals(weightedThingInner)){
-            return randomChoice(dict.stringList(p.getProperty(WORD_THING_INNER)));
+            return weightedChoice(WORD_THING_INNER);
         }
         String res = evaluateValues(weightedThingInner);
-        Map<String, Integer> senwOrg = dict.sentenceWithWeight(p.getProperty(SENW_ORG));
+        Map<String, Integer> senwOrg = dict.sentenceWithWeight(SENW_ORG);
         for(String org: senwOrg.keySet()){
             if(res.contains(org)){
                 return res;
@@ -158,13 +164,13 @@ public final class CbsgCore implements Cbsg {
     }
 
     private String matrixOrSO() {
-        return weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_ORG)));
+        return weightedChoice(SENW_ORG);
     }
 
     private String thingAtom() {
-        String weightedThingAtom = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_THING_ATOM)));
+        String weightedThingAtom = weightedChoice(SENW_THING_ATOM);
         if(weightedThingAtom == null || "".equals(weightedThingAtom)){
-            return randomChoice(dict.stringList(p.getProperty(WORD_THING_ATOM)));
+            return weightedChoice(WORD_THING_ATOM);
         }
         if(weightedThingAtom.contains("$")){
             return evaluateValues(weightedThingAtom);
@@ -173,41 +179,41 @@ public final class CbsgCore implements Cbsg {
     }
 
     private String thingAtomPlural() {
-        String weightedThingAtom = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_THING_ATOM_PLURAL)));
+        String weightedThingAtom = weightedChoice(SENW_THING_ATOM_PLURAL);
         if(weightedThingAtom == null || "".equals(weightedThingAtom)){
-            return randomChoice(dict.stringList(p.getProperty(WORD_THING_ATOM_PLURAL)));
+            return weightedChoice(WORD_THING_ATOM_PLURAL);
         }
         return makeEventualPlural(evaluateValues(weightedThingAtom), true);
     }
 
 
     private String badThings() {
-        return randomChoice(dict.stringList(p.getProperty(WORD_BAD_THINGS)));
+        return weightedChoice(WORD_BAD_THINGS);
     }
 
     private String thingAdjective() {
-        return randomChoice(dict.stringList(p.getProperty(WORD_THING_ADJECTIVE)));
+        return weightedChoice(WORD_THING_ADJECTIVE);
     }
 
     private String eventualAdverb() {
         if (rand.nextInt(4) == 1) {
-            return randomChoice(dict.stringList(p.getProperty(WORD_ADVERB_EVENTUAL)));
+            return weightedChoice(WORD_ADVERB_EVENTUAL);
         }
         return "";
     }
 
     private String thing() {
-        String weightedThing = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_THING)));
+        String weightedThing = weightedChoice(SENW_THING);
         return evaluateValues(weightedThing);
     }
 
     private String thingPlural() {
-        String weightedThing = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_THING_PLURAL)));
+        String weightedThing = weightedChoice(SENW_THING_PLURAL);
         return evaluateValues(weightedThing);
     }
 
     private String addRandomArticle(String word, boolean plural) {
-        String weightedRandomArticle = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_ADD_RANDOM_ARTICLE)));
+        String weightedRandomArticle = weightedChoice(SENW_ADD_RANDOM_ARTICLE);
         if(weightedRandomArticle == null || "".equals(weightedRandomArticle)){
             return addIndefiniteArticle(word, plural);
         }
@@ -215,7 +221,7 @@ public final class CbsgCore implements Cbsg {
     }
 
     private String innerPersonVerbHavingThingComplement() {
-        return randomChoice(dict.stringList(p.getProperty(WORD_PERSON_INNER_HAVING_THING_COMPLEMENT)));
+        return weightedChoice(WORD_PERSON_INNER_HAVING_THING_COMPLEMENT);
     }
 
     private String personVerbHavingThingComplement(boolean plural, boolean infinite) {
@@ -226,27 +232,27 @@ public final class CbsgCore implements Cbsg {
     }
 
     private String personVerbHavingBadThingComplement(boolean plural) {
-        String inner = randomChoice(dict.stringList(p.getProperty(WORD_PERSON_HAVING_BAD_THING_COMPLEMENT)));
+        String inner = weightedChoice(WORD_PERSON_HAVING_BAD_THING_COMPLEMENT);
         return buildPluralVerb(inner, plural);
     }
 
     private String personVerbHavingPersonComplement(boolean plural) {
-        String inner = randomChoice(dict.stringList(p.getProperty(WORD_PERSON_HAVING_PERSON_COMPLEMENT)));
+        String inner = weightedChoice(WORD_PERSON_HAVING_PERSON_COMPLEMENT);
         return buildPluralVerb(inner, plural);
     }
 
     private String thingVerbAndDefiniteEnding(boolean plural) {
-        String inner = randomChoice(dict.stringList(p.getProperty(WORD_THING_VERB_DEFINITE_ENDING)));
+        String inner = weightedChoice(WORD_THING_VERB_DEFINITE_ENDING);
         return buildPluralVerb(inner, plural);
     }
 
     private String thingVerbHavingThingComplement(boolean plural) {
-        String inner = randomChoice(dict.stringList(p.getProperty(WORD_THING_VERB_HAVING_COMPLEMENT)));
+        String inner = weightedChoice(WORD_THING_VERB_HAVING_COMPLEMENT);
         return buildPluralVerb(inner, plural);
     }
 
     private String thingVerbAndEnding() {
-        String weightedVerbAndEnding = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_THING_VERB_ENDING)));
+        String weightedVerbAndEnding = weightedChoice(SENW_THING_VERB_ENDING);
         if(weightedVerbAndEnding == null || "".equals(weightedVerbAndEnding)){
             return thingVerbAndDefiniteEnding(false);
         }
@@ -254,7 +260,7 @@ public final class CbsgCore implements Cbsg {
     }
 
     private String thingVerbAndEndingPlural() {
-        String weightedVerbAndEnding = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_THING_VERB_ENDING_PLURAL)));
+        String weightedVerbAndEnding = weightedChoice(SENW_THING_VERB_ENDING_PLURAL);
         if(weightedVerbAndEnding == null || "".equals(weightedVerbAndEnding)){
             return thingVerbAndDefiniteEnding(true);
         }
@@ -276,25 +282,25 @@ public final class CbsgCore implements Cbsg {
     }
 
     private String faukon() {
-        String weightedProposition = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_FAUKON)));
+        String weightedProposition = weightedChoice(SENW_FAUKON);
         if(weightedProposition == null || "".equals(weightedProposition)){
-            return randomChoice(dict.stringList(p.getProperty(WORD_FAUKON)));
+            return weightedChoice(WORD_FAUKON);
         }
         return evaluateValues(weightedProposition);
     }
 
     private String eventualPostfixedAdverb() {
-        String weightedProposition = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_EVENTUAL_POSTFIXED_ADVERB)));
+        String weightedProposition = weightedChoice(SENW_EVENTUAL_POSTFIXED_ADVERB);
         if(weightedProposition == null || "".equals(weightedProposition)){
-            return randomChoice(dict.stringList(p.getProperty(WORD_ADVERB_EVENTUAL_POSTFIXED)));
+            return weightedChoice(WORD_ADVERB_EVENTUAL_POSTFIXED);
         }
         return evaluateValues(weightedProposition);
     }
 
     private String personVerbAndDefiniteEnding(boolean plural, boolean infinitive) {
-        String weightedProposition = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_PERSON_VERB_AND_DEFINITE_ENDING)));
+        String weightedProposition = weightedChoice(SENW_PERSON_VERB_AND_DEFINITE_ENDING);
         String inner = (weightedProposition == null || "".equals(weightedProposition))
-                ? randomChoice(dict.stringList(p.getProperty(WORD_PERSON_VERB_DEFINITE_ENDING)))
+                ? weightedChoice(WORD_PERSON_VERB_DEFINITE_ENDING)
                 : evaluateValues(weightedProposition);
         if (infinitive) {
             return inner;
@@ -303,12 +309,12 @@ public final class CbsgCore implements Cbsg {
     }
 
     private String proposition() {
-        String weightedProposition = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_PROPOSITION)));
+        String weightedProposition = weightedChoice(SENW_PROPOSITION);
         return evaluateValues(weightedProposition);
     }
 
     private String articulatedPropositions() {
-        String weightedProposition = weightedChoice(dict.sentenceWithWeight(p.getProperty(SENW_ARTICULATED_PROPOSITION)));
+        String weightedProposition = weightedChoice(SENW_ARTICULATED_PROPOSITION);
         return evaluateValues(weightedProposition);
     }
 
@@ -445,7 +451,10 @@ public final class CbsgCore implements Cbsg {
     }
 
 
-    private static String weightedChoice(Map<String, Integer> choices) {
+    private String weightedChoice(String key) {
+        return weightedChoice(dict.sentenceWithWeight(key));
+    }
+    private String weightedChoice(Map<String, Integer> choices) {
         int totalWeight = choices.values().stream().mapToInt(Integer::intValue).sum();
         if (totalWeight == 0) {
             return "";
@@ -467,10 +476,6 @@ public final class CbsgCore implements Cbsg {
                 .replaceAll("\\s+", " ")
                 .replaceAll(";\\.",".")
                 .replaceAll(" ,", ",");
-    }
-
-    private static String randomChoice(List<String> words) {
-        return words.get(rand.nextInt(words.size()));
     }
 
 }

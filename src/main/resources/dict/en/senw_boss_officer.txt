@@ -1,6 +1,6 @@
-1,Catalyst
-1,Futurist
-1,Strategist
-1,Technologist
-1,Evangelist
-15,Officer
+SENW_BOSS_OFFICER,1,Catalyst
+SENW_BOSS_OFFICER,1,Futurist
+SENW_BOSS_OFFICER,1,Strategist
+SENW_BOSS_OFFICER,1,Technologist
+SENW_BOSS_OFFICER,1,Evangelist
+SENW_BOSS_OFFICER,15,Officer

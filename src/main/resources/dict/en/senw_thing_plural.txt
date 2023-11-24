@@ -1,8 +1,8 @@
-66,$thingAtomPlural
-10,$thingAdjective, $thingAdjective $thingAtomPlural
-5,$thingAdjective $thingAtomPlural
-65,$thingAdjective and $thingAdjective $thingAtomPlural
-2,$thingAdjective and/or $thingAdjective $thingAtomPlural
-2,$growth
-6,$thingAdjective, $thingAdjective and $thingAdjective $thingAtomPlural
-4,$thingAdjective $thingAtomPlural
+SENW_THING_PLURAL,66,$thingAtomPlural
+SENW_THING_PLURAL,10,$thingAdjective, $thingAdjective $thingAtomPlural
+SENW_THING_PLURAL,5,$thingAdjective $thingAtomPlural
+SENW_THING_PLURAL,65,$thingAdjective and $thingAdjective $thingAtomPlural
+SENW_THING_PLURAL,2,$thingAdjective and/or $thingAdjective $thingAtomPlural
+SENW_THING_PLURAL,2,$growth
+SENW_THING_PLURAL,6,$thingAdjective, $thingAdjective and $thingAdjective $thingAtomPlural
+SENW_THING_PLURAL,4,$thingAdjective $thingAtomPlural

@@ -1,7 +1,6 @@
-198,
-270,$thingInner
-1,Quality Research
-1,Customer Experience
-1,Customer Experience Management
-1,$timelessEvent
-
+SENW_THING_ATOM,198,
+SENW_THING_ATOM,270,$thingInner
+SENW_THING_ATOM,1,Quality Research
+SENW_THING_ATOM,1,Customer Experience
+SENW_THING_ATOM,1,Customer Experience Management
+SENW_THING_ATOM,1,$timelessEvent

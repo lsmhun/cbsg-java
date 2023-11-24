@@ -1,4 +1,4 @@
-150,
-20,the %s
-40,our %s
-1,the 'why' behind %s
+SENW_ADD_RANDOM_ARTICLE,150,
+SENW_ADD_RANDOM_ARTICLE,20,the %s
+SENW_ADD_RANDOM_ARTICLE,40,our %s
+SENW_ADD_RANDOM_ARTICLE,1,the 'why' behind %s

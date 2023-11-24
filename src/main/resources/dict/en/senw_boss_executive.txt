@@ -1,3 +1,3 @@
-10,
-1,Executive
-1,Principal
+SENW_BOSS_EXECUTIVE,10,
+SENW_BOSS_EXECUTIVE,1,Executive
+SENW_BOSS_EXECUTIVE,1,Principal

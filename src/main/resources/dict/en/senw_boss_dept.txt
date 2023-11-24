@@ -1,17 +1,17 @@
-42,department
-1,Visionary
-1,Digital
-1,Technical
-1,Manifesto
-1,Operating
-1,Product
-1,Scheme
-1,Growth
-1,Brand
-1,Sales
-1,Networking
-1,Content
-1,Holacracy
-1,Data Protection
-1,Risk Appetite
-1,Business
+SENW_BOSS_DEPT,42,department
+SENW_BOSS_DEPT,1,Visionary
+SENW_BOSS_DEPT,1,Digital
+SENW_BOSS_DEPT,1,Technical
+SENW_BOSS_DEPT,1,Manifesto
+SENW_BOSS_DEPT,1,Operating
+SENW_BOSS_DEPT,1,Product
+SENW_BOSS_DEPT,1,Scheme
+SENW_BOSS_DEPT,1,Growth
+SENW_BOSS_DEPT,1,Brand
+SENW_BOSS_DEPT,1,Sales
+SENW_BOSS_DEPT,1,Networking
+SENW_BOSS_DEPT,1,Content
+SENW_BOSS_DEPT,1,Holacracy
+SENW_BOSS_DEPT,1,Data Protection
+SENW_BOSS_DEPT,1,Risk Appetite
+SENW_BOSS_DEPT,1,Business

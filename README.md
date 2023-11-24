@@ -12,7 +12,7 @@ Simple run `java -jar cbsg-0.1.0.jar` then "short workshop" will be generated.
 there are some supported parameters for dedicated workspace influencers.
 
 ```shell
-java -jar cbsg-0.1.0.jar --help
+java -jar cbsg-0.2.0.jar --help
 
 Available options:
 --workshop
@@ -20,7 +20,7 @@ Available options:
 --financialReport
 --sentenceGuaranteedAmount=<ANY_INTEGER>
 
---configurationProperties=<DICTIONARY_PROPERTIES_FROM_CLASSPATH>
+--dictionaryFile=<DICTIONARY_FROM_CLASSPATH>
 --help
 
 ```
