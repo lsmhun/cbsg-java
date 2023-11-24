@@ -1,2 +1,0 @@
-SENW_BOSS_AGE,3,
-SENW_BOSS_AGE,1,Senior-

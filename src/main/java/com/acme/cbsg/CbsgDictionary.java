@@ -1,7 +1,6 @@
 package com.acme.cbsg;
 
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -9,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class CbsgDictionary {
 
-    public static final String DEFAULT_DICTIONARY_FILE = "dict/en/cbsg_db.csv";
+    public static final String DEFAULT_DICTIONARY_FILE = "dict/en/cbsg_dictionary.csv";
 
     public CbsgDictionary() {
         loadDictionary(DEFAULT_DICTIONARY_FILE);
@@ -46,6 +45,9 @@ public class CbsgDictionary {
         while (scanner.hasNext()) {
             try {
                 String line = scanner.nextLine();
+                if(line.startsWith("#")){
+                    continue;
+                }
                 String[] l = line.split(",", 3);
                 if (l.length != 3) {
                     continue;

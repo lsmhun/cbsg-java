@@ -1,4 +1,0 @@
-SENW_THING_VERB_ENDING,5,
-SENW_THING_VERB_ENDING,50,$thingVerbHavingThingComplement $thingWithRandomArticleRandom
-SENW_THING_VERB_ENDING,25,$personVerbHavingPersonComplement the $person
-SENW_THING_VERB_ENDING,25,$personVerbHavingPersonComplement the $personPlural

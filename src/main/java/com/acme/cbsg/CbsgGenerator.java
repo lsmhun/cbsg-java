@@ -22,8 +22,6 @@ public final class CbsgGenerator {
             + DICTIONARY_FILE + "<DICTIONARY_FILE>\n"
             + HELP + "\n";
 
-    private static final CbsgDictionary CBSG_DICTIONARY = new CbsgDictionary();
-
     public static void main(String... args) {
         // Corporate Bullshit Generator
         CbsgDictionary cbsgDictionary = loadCbsgDictionary(args);

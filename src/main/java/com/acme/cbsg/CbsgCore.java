@@ -12,8 +12,6 @@ import static com.acme.cbsg.CbsgDictionaryKey.*;
 public final class CbsgCore implements Cbsg {
 
     private final CbsgDictionary dict;
-//    private final CbsgDictionary cbsgConfiguration;
-//    private final Properties p;
 
     final static String VAR_REGEXP = "\\$[a-zA-Z\\d]+";
     final static Pattern VAR_PATTERN = Pattern.compile(VAR_REGEXP);
@@ -21,13 +19,7 @@ public final class CbsgCore implements Cbsg {
 
     public CbsgCore() {
         this.dict = new CbsgDictionary();
-//        this.p = dict.readProperties(CbsgResourceUtil.DEFAULT_DICTIONARY_PROPERIES);
-//        this.cbsgConfiguration = dictionaryUtil.readProperties()
     }
-
-//    public CbsgCore(Properties cbsgConfiguration) {
-//        this.p = cbsgConfiguration;
-//    }
 
     public CbsgCore(CbsgDictionary dictionary) {
         dict = dictionary;

@@ -1,8 +1,0 @@
-SENW_THING_PLURAL,66,$thingAtomPlural
-SENW_THING_PLURAL,10,$thingAdjective, $thingAdjective $thingAtomPlural
-SENW_THING_PLURAL,5,$thingAdjective $thingAtomPlural
-SENW_THING_PLURAL,65,$thingAdjective and $thingAdjective $thingAtomPlural
-SENW_THING_PLURAL,2,$thingAdjective and/or $thingAdjective $thingAtomPlural
-SENW_THING_PLURAL,2,$growth
-SENW_THING_PLURAL,6,$thingAdjective, $thingAdjective and $thingAdjective $thingAtomPlural
-SENW_THING_PLURAL,4,$thingAdjective $thingAtomPlural

@@ -1,4 +1,0 @@
-SENW_PERSON_VERB_AND_DEFINITE_ENDING,110,
-SENW_PERSON_VERB_AND_DEFINITE_ENDING,1,create an environment where $thingAtom, $thingAtom and $thingAtom can thrive
-SENW_PERSON_VERB_AND_DEFINITE_ENDING,1,advance our strategy to $personInfinitiveVerbAndEnding
-SENW_PERSON_VERB_AND_DEFINITE_ENDING,1,focus on our $thingAtomPlural to $personInfinitiveVerbAndEnding

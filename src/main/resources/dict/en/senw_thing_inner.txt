@@ -1,9 +1,0 @@
-SENW_THING_INNER,68,
-SENW_THING_INNER,194,$matrixOrSO
-SENW_THING_INNER,1,Management Information System
-SENW_THING_INNER,1,Management Information System
-SENW_THING_INNER,1,Quality Management System
-SENW_THING_INNER,1,Control Information System
-SENW_THING_INNER,1,Strategic Management System
-SENW_THING_INNER,1,Business Model Innovation
-SENW_THING_INNER,1,leadership development system

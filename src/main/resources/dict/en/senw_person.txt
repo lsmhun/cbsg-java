@@ -1,5 +1,0 @@
-SENW_PERSON,1,$thingAtom champion
-SENW_PERSON,1,$thingAtomPlural champion
-SENW_PERSON,16,$thingAtom
-SENW_PERSON,16,$thingAtomPlural
-SENW_PERSON,14,$boss

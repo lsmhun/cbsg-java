@@ -1,8 +1,0 @@
-SENW_THING,66,$thingAtom
-SENW_THING,10,$thingAdjective, $thingAdjective $thingAtom
-SENW_THING,5,$thingAdjective $thingAtom
-SENW_THING,65,$thingAdjective and $thingAdjective $thingAtom
-SENW_THING,2,$thingAdjective and/or $thingAdjective $thingAtom
-SENW_THING,2,$growth
-SENW_THING,6,$thingAdjective, $thingAdjective and $thingAdjective $thingAtom
-SENW_THING,4,$thingAdjective $thingAtom

@@ -1,6 +1,0 @@
-SENW_ORG,2,organization
-SENW_ORG,3,silo
-SENW_ORG,3,matrix
-SENW_ORG,1,cube
-SENW_ORG,1,sphere
-SENW_ORG,1,pyramid
